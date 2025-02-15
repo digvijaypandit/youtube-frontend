@@ -20,7 +20,7 @@ const Sidebar = ({ isCollapsed }) => {
 
   return (
     <>
-      <div className={`h-screen transition-transform duration-200 fixed top-14 left-0 p-2 bg-[#181818] px-2 text-white overflow-y-auto transition-all duration-300 ${isCollapsed ? "w-20" : "w-60"} flex flex-col`}>
+      <div className={`h-screen fixed top-14 left-0 p-2 bg-[#181818] px-2  "max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 text-white transition-all duration-300 ${isCollapsed ? "w-20" : "w-60"} flex flex-col`}>
         <nav className="space-y-2 flex-1">
           <SidebarItem id={1} icon={<MdHome />} label="Home" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 1} />
           <SidebarItem id={2} icon={<SiYoutubeshorts />} label="Shorts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 2} />
@@ -58,7 +58,7 @@ const Sidebar = ({ isCollapsed }) => {
           )}
         </nav>
       </div>
-      <div className={`transition-transform duration-300${!isCollapsed ? " bg-black/80 h-screen absolute top-0 left-60 w-screen " : "hidden"}`}>white</div>
+      <div className={`transition-transform duration-300${!isCollapsed ? " bg-black/80 h-screen absolute top-0 left-60 w-screen " : "hidden"}`}></div>
     </>
   );
 };
