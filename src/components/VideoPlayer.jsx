@@ -1,65 +1,67 @@
-import React, { useRef, useEffect, useState } from "react";
-import Plyr from "plyr";
-import "plyr-react/plyr.css";
+import { useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setPlaying, setCurrentTime, setDuration, toggleMiniPlayer } from "../feature/videoSlice.js";
+import MiniPlayer from "./MiniPlayer";
+import { AiOutlinePlayCircle, AiOutlinePauseCircle, AiOutlineExpand } from "react-icons/ai";
+import { MdPictureInPictureAlt } from "react-icons/md";
 
-const VideoPlayer = ({ src }) => {
-    const videoRef = useRef(null);
-    const [theaterMode, setTheaterMode] = useState(false);
-    const [miniPlayer, setMiniPlayer] = useState(false);
+const VideoPlayer = () => {
+  const videoRef = useRef(null);
+  const dispatch = useDispatch();
+  
+  const { isPlaying, currentTime, isMiniPlayer } = useSelector((state) => state.video);
+  
+  useEffect(() => {
+    const video = videoRef.current;
 
-    useEffect(() => {
-        if (videoRef.current) {
-            const player = new Plyr(videoRef.current, {
-                controls: [
-                    "play-large", "rewind", "play", "fast-forward", "progress",
-                    "current-time", "duration", "mute", "volume", "captions",
-                    "settings", "fullscreen"
-                ],
-                seekTime: 10,
-                speed: { selected: 1, options: [0.5, 1, 1.5, 2] },
-                keyboard: { focused: true, global: true }
-            });
+    if (video) {
+      video.currentTime = currentTime; // Restore time
+      if (isPlaying) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
 
-            // ✅ YouTube-Like Keyboard Shortcuts
-            const handleKeyDown = (e) => {
-                if (e.code === "KeyJ") player.rewind(10); // ⏪ 10s Back
-                if (e.code === "KeyL") player.forward(10); // ⏩ 10s Forward
-                if (e.code === "KeyK") player.togglePlay(); // ▶️ Pause/Play
-                if (e.code === "KeyM") player.muted = !player.muted; // 🔇 Mute
-                if (e.code === "KeyF") player.fullscreen.toggle(); // 🔲 Fullscreen
-                if (e.code === "KeyT") setTheaterMode(!theaterMode); // 🎭 Toggle Theater Mode
-                if (e.code === "KeyI") setMiniPlayer(!miniPlayer); // 📺 Toggle Mini Player
-            };
+    const updateProgress = () => {
+      dispatch(setCurrentTime(video.currentTime));
+    };
 
-            document.addEventListener("keydown", handleKeyDown);
+    video.addEventListener("timeupdate", updateProgress);
+    return () => video.removeEventListener("timeupdate", updateProgress);
+  }, [isPlaying, dispatch]);
 
-            return () => {
-                player.destroy();
-                document.removeEventListener("keydown", handleKeyDown);
-            };
-        }
-    }, [theaterMode, miniPlayer]);
+  const togglePlay = () => {
+    dispatch(setPlaying(!isPlaying));
+  };
 
-    return (
-        <div className={`relative mx-auto ${theaterMode ? "w-screen h-screen fixed top-0 left-0 bg-black z-50" : "max-w-4xl"}`}>
-            {/* 🎛️ YouTube-Style Custom Controls */}
-            <div className="flex justify-between p-2 bg-[#1f1f1f]">
-                <button onClick={() => setTheaterMode(!theaterMode)} className="px-3 py-1 text-white rounded bg-gray-700 hover:bg-red-600">
-                    🎭 Theater Mode (T)
-                </button>
-                <button onClick={() => setMiniPlayer(!miniPlayer)} className="px-3 py-1 text-white rounded bg-gray-700 hover:bg-red-600">
-                    📺 Mini Player (I)
-                </button>
-            </div>
+  return (
+    <div className="relative mx-auto flex justify-center bg-black max-w-2xl">
+      {!isMiniPlayer ? (
+        <>
+          <video 
+            ref={videoRef} 
+            src="https://res.cloudinary.com/dscnfodtk/video/upload/v1737464826/yttghqrsod87fqprzeyp.mp4" 
+            className="w-full" 
+            onClick={togglePlay} 
+            onLoadedMetadata={() => dispatch(setDuration(videoRef.current.duration))}
+          />
 
-            {/* 🎥 Video Player */}
-            <div className={`border border-gray-700 rounded-lg shadow-lg overflow-hidden ${miniPlayer ? "fixed bottom-4 right-4 w-80 h-44 z-50 bg-black" : ""}`}>
-                <video ref={videoRef} className="w-full border-t-2 border-red-600" controls>
-                    <source src={src} type="video/mp4" />
-                </video>
-            </div>
-        </div>
-    );
+          <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/70 text-white flex items-center gap-4">
+            <button onClick={togglePlay} className="text-2xl">
+              {isPlaying ? <AiOutlinePauseCircle /> : <AiOutlinePlayCircle />}
+            </button>
+
+            <button onClick={() => dispatch(toggleMiniPlayer())} className="text-2xl">
+              <MdPictureInPictureAlt />
+            </button>
+          </div>
+        </>
+      ) : (
+        <MiniPlayer videoRef={videoRef} />
+      )}
+    </div>
+  );
 };
 
 export default VideoPlayer;
