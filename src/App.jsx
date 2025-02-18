@@ -1,18 +1,12 @@
-import React,{useState} from 'react'
-import { Provider } from "react-redux";
-import { store } from "./store/store.js";
-import Header from './components/header/Header'
-import VideoPlayer from './components/VideoPlayer'
+import React from "react";
+import VideoPlayer from "./components/VideoPlayer";
 
-
-function App() {
-
+const App = () => {
   return (
-    <Provider store={store}>
-      {/* <Header /> */}
+    <div>
       <VideoPlayer />
-      </Provider>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;
