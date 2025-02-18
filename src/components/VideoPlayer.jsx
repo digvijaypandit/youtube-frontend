@@ -56,6 +56,11 @@ const VideoPlayer = () => {
     },
   };
 
+
+  const toggleSetting = () => {
+  setIsSettingsMenuOpen((prevState) => !prevState);
+  }
+
   const handleProgressClick = (e) => {
     const progressBar = e.target;
     const progressWidth = progressBar.clientWidth;
@@ -67,22 +72,26 @@ const VideoPlayer = () => {
 
   const handlePlayerReady = (player) => {
     playerRef.current = player;
-
+  
     // Create settings button using an SVG
     const settingsButton = player.controlBar.addChild('button', {
       name: 'settingsButton',
       className: 'vjs-settings-button bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300 ease-in-out shadow-lg', // Tailwind classes
     });
-
+  
     // Add an SVG as the button content
     settingsButton.el().innerHTML = `
       <svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%"><use class="ytp-svg-shadow" xlink:href="#ytp-id-19"></use><path d="m 23.94,18.78 c .03,-0.25 .05,-0.51 .05,-0.78 0,-0.27 -0.02,-0.52 -0.05,-0.78 l 1.68,-1.32 c .15,-0.12 .19,-0.33 .09,-0.51 l -1.6,-2.76 c -0.09,-0.17 -0.31,-0.24 -0.48,-0.17 l -1.99,.8 c -0.41,-0.32 -0.86,-0.58 -1.35,-0.78 l -0.30,-2.12 c -0.02,-0.19 -0.19,-0.33 -0.39,-0.33 l -3.2,0 c -0.2,0 -0.36,.14 -0.39,.33 l -0.30,2.12 c -0.48,.2 -0.93,.47 -1.35,.78 l -1.99,-0.8 c -0.18,-0.07 -0.39,0 -0.48,.17 l -1.6,2.76 c -0.10,.17 -0.05,.39 .09,.51 l 1.68,1.32 c -0.03,.25 -0.05,.52 -0.05,.78 0,.26 .02,.52 .05,.78 l -1.68,1.32 c -0.15,.12 -0.19,.33 -0.09,.51 l 1.6,2.76 c .09,.17 .31,.24 .48,.17 l 1.99,-0.8 c .41,.32 .86,.58 1.35,.78 l .30,2.12 c .02,.19 .19,.33 .39,.33 l 3.2,0 c .2,0 .36,-0.14 .39,-0.33 l .30,-2.12 c .48,-0.2 .93,-0.47 1.35,-0.78 l 1.99,.8 c .18,.07 .39,0 .48,-0.17 l 1.6,-2.76 c .09,-0.17 .05,-0.39 -0.09,-0.51 l -1.68,-1.32 0,0 z m -5.94,2.01 c -1.54,0 -2.8,-1.25 -2.8,-2.8 0,-1.54 1.25,-2.8 2.8,-2.8 1.54,0 2.8,1.25 2.8,2.8 0,1.54 -1.25,2.8 -2.8,2.8 l 0,0 z" fill="#fff" id="ytp-id-19"></path></svg>
     `;
-
+  
     settingsButton.on('click', () => {
-      setIsSettingsMenuOpen(true); // Open the settings menu when clicked
+      toggleSetting();
     });
-
+  
+    // Move settings button before the fullscreen toggle button
+    const fullscreenButton = player.controlBar.fullscreenToggle;
+    player.controlBar.el().insertBefore(settingsButton.el(), fullscreenButton.el());
+  
     // Handle other player events
     player.on("timeupdate", () => setCurrentTime(player.currentTime()));
     player.on("loadedmetadata", () => setDuration(player.duration()));
@@ -94,7 +103,7 @@ const VideoPlayer = () => {
       }
     });
   };
-
+  
   const handleSeek = (newTime) => {
     if (playerRef.current) {
       playerRef.current.currentTime(newTime);
@@ -129,32 +138,20 @@ const VideoPlayer = () => {
 
   const renderSettingsMenu = () => (
     <div
-      className="absolute top-10 right-10 bg-gray-800 text-white p-4 rounded-lg shadow-lg z-50 w-64"
+      className="absolute top-40 right-80 bg-gray-800 text-white font-sans p-4 rounded-lg"
       style={{ zIndex: 9999 }} // Ensure it's on top of everything, even in fullscreen
       onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the settings menu
     >
-      <div className="text-lg font-semibold mb-4">Settings</div>
-
-      {/* Subtitles Toggle */}
-      <div className="mb-3">
-        <label htmlFor="subtitlesToggle" className="mr-2">Subtitles:</label>
-        <input
-          type="checkbox"
-          id="subtitlesToggle"
-          checked={isCCEnabled}
-          onChange={toggleCC}
-          className="checkbox"
-        />
-      </div>
+      <div className="flex flex-col items-center justify-between text-gray-400">
 
       {/* Video Quality Dropdown */}
-      <div className="mb-3">
+      <div className="mb-3 flex items-center">
         <label htmlFor="qualitySelect" className="mr-2">Quality:</label>
         <select
           id="qualitySelect"
           value={quality}
           onChange={(e) => handleQualityChange(e.target.value)}
-          className="bg-gray-700 text-white p-2 rounded"
+          className="bg-gray-700 w-[70%] text-white p-2 rounded"
         >
           {Object.keys(qualityLevels).map((key) => (
             <option key={key} value={key}>{key}</option>
@@ -184,7 +181,7 @@ const VideoPlayer = () => {
 
       {/* Sleep Timer */}
       <div className="mb-3">
-        <label htmlFor="sleepTimeSelect" className="mr-2">Sleep Timer (minutes):</label>
+        <label htmlFor="sleepTimeSelect" className="mr-2">Sleep Timer:</label>
         <select
           id="sleepTimeSelect"
           onChange={(e) => {
@@ -202,13 +199,7 @@ const VideoPlayer = () => {
           <option value="30">30 mins</option>
         </select>
       </div>
-
-      <button
-        className="mt-4 text-blue-500"
-        onClick={() => setIsSettingsMenuOpen(false)}
-      >
-        Close
-      </button>
+    </div>
     </div>
   );
 

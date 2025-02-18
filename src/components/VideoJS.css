@@ -1,0 +1,12 @@
+.vjs-play-progress {
+  background-color: #ff0000 !important;
+}
+.vjs-load-progress {
+  background-color: #cccccc !important;
+}
+.vjs-progress-holder {
+  background-color: #333 !important;
+}
+.video-js .vjs-control-bar {
+  background: transparent !important;
+}
