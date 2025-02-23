@@ -1,12 +1,14 @@
-import React from "react";
-import VideoPlayer from "./components/VideoPlayer";
-
-const App = () => {
+import Header from './components/header/Header';
+import VideoDescription from './components/VideoDescription';
+import VideoPlayer from './components/VideoPlayer';
+function App() {
   return (
-    <div>
-      <VideoPlayer />
-    </div>
+    <>
+      <Header />
+      {/* <VideoDescription /> */}
+      {/* <VideoPlayer /> */}
+    </>
   );
-};
+}
 
 export default App;
