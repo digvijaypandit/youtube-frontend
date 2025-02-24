@@ -1,73 +1,76 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  FaHome, FaHistory, FaClock, FaThumbsUp, FaCog, FaShoppingBag, FaFilm,
+  FaClock, FaThumbsUp, FaCog, FaShoppingBag, FaFilm,
   FaPodcast, FaGamepad, FaTrophy, FaBook, FaMusic, FaNewspaper, FaFire,
-  FaVideo, FaUserCircle, FaStream
+  FaUserCircle, FaStream
 } from "react-icons/fa";
 import {
   MdHome, MdSubscriptions, MdHistory, MdPlaylistPlay, MdOutlineSmartDisplay, MdLiveTv,
   MdFeedback, MdHelp, MdReport
 } from "react-icons/md";
 import { SiYoutubeshorts } from "react-icons/si";
-import NavigationBar from "../NavigationBar";
 
-const Sidebar = ({ isCollapsed }) => {
+const Sidebar = ({ isCollapsed, toggleSidebar }) => {
   const [activeId, setActiveId] = useState(null);
 
-  function clickedBtn(id) {
+  const navigate = useNavigate();
+
+  function clickedBtn(id,path) {
     setActiveId(id);
+    navigate(path)
   }
 
   return (
     <>
-      <div className={`h-screen fixed top-14 left-0 p-2 bg-[#181818] px-2  "max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 text-white transition-all duration-300 ${isCollapsed ? "w-20" : "w-60"} flex flex-col`}>
+      <div className={`h-[calc(100vh-56px)] fixed top-[56px] left-0 p-2 bg-[#181818] px-2 "max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 text-white transition-all duration-300 ${isCollapsed ? "w-20" : "w-60"} flex flex-col`}>
         <nav className="space-y-2 flex-1">
-          <SidebarItem id={1} icon={<MdHome />} label="Home" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 1} />
-          <SidebarItem id={2} icon={<SiYoutubeshorts />} label="Shorts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 2} />
-          <SidebarItem id={3} icon={<MdSubscriptions />} label="Subscriptions" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 3} />
-          <SidebarItem id={4} icon={<FaUserCircle />} label="You" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 4} />
+          <SidebarItem id={1} icon={<MdHome />} label="Home" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 1} />
+          <SidebarItem id={2} icon={<SiYoutubeshorts />} label="Shorts" path="/shorts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 2} />
+          <SidebarItem id={3} icon={<MdSubscriptions />} label="Subscriptions" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 3} />
+          <SidebarItem id={4} icon={<FaUserCircle />} label="You" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 4} />
 
           {!isCollapsed && (
             <>
               <SectionTitle title="You" />
-              <SidebarItem id={5} icon={<MdHistory />} label="History" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 5} />
-              <SidebarItem id={6} icon={<MdPlaylistPlay />} label="Playlists" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 6} />
-              <SidebarItem id={7} icon={<MdOutlineSmartDisplay />} label="Your videos" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 7} />
-              <SidebarItem id={8} icon={<FaClock />} label="Watch Later" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 8} />
-              <SidebarItem id={9} icon={<FaThumbsUp />} label="Liked videos" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 9} />
+              <SidebarItem id={5} icon={<MdHistory />} label="History" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 5} />
+              <SidebarItem id={6} icon={<MdPlaylistPlay />} label="Playlists" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 6} />
+              <SidebarItem id={7} icon={<MdOutlineSmartDisplay />} label="Your videos" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 7} />
+              <SidebarItem id={8} icon={<FaClock />} label="Watch Later" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 8} />
+              <SidebarItem id={9} icon={<FaThumbsUp />} label="Liked videos" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 9} />
 
               <SectionTitle title="Explore" />
-              <SidebarItem id={10} icon={<FaFire />} label="Trending" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 10} />
-              <SidebarItem id={11} icon={<FaShoppingBag />} label="Shopping" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 11} />
-              <SidebarItem id={12} icon={<FaMusic />} label="Music" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 12} />
-              <SidebarItem id={13} icon={<FaFilm />} label="Films" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 13} />
-              <SidebarItem id={14} icon={<MdLiveTv />} label="Live" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 14} />
-              <SidebarItem id={15} icon={<FaGamepad />} label="Gaming" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 15} />
-              <SidebarItem id={16} icon={<FaNewspaper />} label="News" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 16} />
-              <SidebarItem id={17} icon={<FaTrophy />} label="Sport" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 17} />
-              <SidebarItem id={18} icon={<FaBook />} label="Courses" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 18} />
-              <SidebarItem id={19} icon={<FaStream />} label="Fashion & beauty" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 19} />
-              <SidebarItem id={20} icon={<FaPodcast />} label="Podcasts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 20} />
+              <SidebarItem id={10} icon={<FaFire />} label="Trending" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 10} />
+              <SidebarItem id={11} icon={<FaShoppingBag />} label="Shopping" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 11} />
+              <SidebarItem id={12} icon={<FaMusic />} label="Music" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 12} />
+              <SidebarItem id={13} icon={<FaFilm />} label="Films" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 13} />
+              <SidebarItem id={14} icon={<MdLiveTv />} label="Live" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 14} />
+              <SidebarItem id={15} icon={<FaGamepad />} label="Gaming" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 15} />
+              <SidebarItem id={16} icon={<FaNewspaper />} label="News" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 16} />
+              <SidebarItem id={17} icon={<FaTrophy />} label="Sport" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 17} />
+              <SidebarItem id={18} icon={<FaBook />} label="Courses" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 18} />
+              <SidebarItem id={19} icon={<FaStream />} label="Fashion & beauty" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 19} />
+              <SidebarItem id={20} icon={<FaPodcast />} label="Podcasts" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 20} />
 
               <SectionTitle title="Settings" />
-              <SidebarItem id={21} icon={<FaCog />} label="Settings" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 21} />
-              <SidebarItem id={22} icon={<MdReport />} label="Report history" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 22} />
-              <SidebarItem id={23} icon={<MdHelp />} label="Help" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 23} />
-              <SidebarItem id={24} icon={<MdFeedback />} label="Send feedback" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 24} />
+              <SidebarItem id={21} icon={<FaCog />} label="Settings" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 21} />
+              <SidebarItem id={22} icon={<MdReport />} label="Report history" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 22} />
+              <SidebarItem id={23} icon={<MdHelp />} label="Help" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 23} />
+              <SidebarItem id={24} icon={<MdFeedback />} label="Send feedback" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 24} />
             </>
           )}
         </nav>
       </div>
-      <div className={`transition-transform duration-300${!isCollapsed ? " bg-black/80 h-screen absolute top-0 left-60 w-screen " : "hidden"}`}></div>
+      <div className={`transition-transform duration-300${!isCollapsed ? " bg-[#0f0f0f51] h-screen absolute top-0 left-60 w-screen n z-40" : "hidden"}`} onClick={toggleSidebar}></div>
     </>
   );
 };
 
 // Sidebar Item Component
-const SidebarItem = ({ id, icon, label, isCollapsed, active, onClick }) => {
+const SidebarItem = ({ id, path, icon, label, isCollapsed, active, onClick }) => {
   return (
     <div
-      onClick={() => onClick(id)}
+      onClick={() => onClick(id,path)}
       className={`flex items-center px-6 py-4 rounded-lg cursor-pointer ${active && !isCollapsed ? "font-bold bg-gray-700" : "hover:bg-gray-800"} ${isCollapsed ? "justify-between flex-col items-center" : "space-x-3"}`}
     >
       <span className="text-2xl">{icon}</span>

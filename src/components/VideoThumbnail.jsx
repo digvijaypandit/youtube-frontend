@@ -1,92 +1,109 @@
-import React, { useState, useEffect, useRef } from "react";
-import { HiDotsVertical } from "react-icons/hi";
-import { FaClock, FaDownload, FaShare, FaListUl, FaBookmark, FaBan, FaFlag } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const VideoThumbnail = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null); // To track clicks outside
+// Function to convert date to "time ago" format
+const timeAgo = (dateString) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const seconds = Math.floor((now - date) / 1000);
 
-  // Function to toggle dropdown visibility
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  if (seconds < 60) return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days} day${days !== 1 ? "s" : ""} ago`;
+  const months = Math.floor(days / 30);
+  if (months < 12) return `${months} month${months !== 1 ? "s" : ""} ago`;
+  const years = Math.floor(months / 12);
+  return `${years} year${years !== 1 ? "s" : ""} ago`;
+};
 
-  // Close the dropdown if clicking outside
+const VideoThumbnail = ({ video }) => {
+  if (!video) return null;
+
+  const { title, thumbnail, views, createdAt, duration, owner } = video;
+
+  // State for user details
+  const [user, setUser] = useState({ username: "", avatar: "" });
+
+  // Fetch user details
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
+    if (!owner) return;
+
+    const fetchUserDetails = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+
+        if (!token) {
+          console.error("No access token found");
+          return;
+        }
+
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/users/c/${owner}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser({
+          username: response.data.data.username,
+          avatar: response.data.data.avatar,
+        });
+      } catch (error) {
+        console.error("Error fetching user details:", error);
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+
+    fetchUserDetails();
+  }, [owner]);
 
   return (
-    <div className="max-w-sm m-5 bg-black text-white rounded-lg overflow-hidden shadow-lg">
-      {/* Thumbnail Image */}
+    <div className="w-88 m-4 bg-[#181818] text-white rounded-lg overflow-hidden shadow-lg">
       <div className="relative">
         <img
-          className="w-full h-48 object-cover "
-          src="https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
-          alt="Veer Sambhaji Song"
+          className="w-full h-48 object-cover rounded-xl cursor-pointer"
+          src={thumbnail}
+          alt="Thumbnail"
         />
-        {/* Video Duration */}
-        <span className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-sm px-2 py-1 rounded">
-          3:25
+        <span className="absolute bottom-2 right-2 cursor-pointer bg-[#0000008a] bg-opacity-80 text-white h-5 text-sm px-1 rounded">
+          {Math.floor((duration || 0) / 60)}:
+          {Math.floor((duration || 0) % 60).toString().padStart(2, "0")}
         </span>
       </div>
 
-      {/* Video Details */}
       <div className="flex p-3 relative">
-        {/* Channel Image */}
-        <img
-          className="h-10 w-10 rounded-full mr-3"
-          src="https://yt3.ggpht.com/ytc/AOPolaR9zU-ExampleImage=s88-c-k-c0x00ffffff-no-rj"
-          alt="Channel"
-        />
-        {/* Video Info */}
-        <div>
-          <h3 className="text-md font-semibold">Veer Sambhaji | CHAAVA 2025</h3>
-          <p className="text-sm text-gray-400">Amardeep Singh ✅</p>
-          <p className="text-sm text-gray-400">69K views • 4 days ago</p>
-        </div>
-
-        {/* Dots Menu Button */}
-        <div className="ml-auto relative" ref={dropdownRef}>
-          <button onClick={toggleDropdown} className="p-2">
-            <HiDotsVertical />
-          </button>
-        </div>
-      </div>
-      {/* Dropdown Menu */}
-      {isOpen && (
-            <div className="absolute left-[30%] top-[35%] mt-2 w-56 bg-gray-900 z-10 text-white rounded-lg shadow-lg">
-              <ul className="py-2">
-                <MenuItem icon={<FaListUl />} text="Add to queue" />
-                <MenuItem icon={<FaClock />} text="Save to Watch Later" />
-                <MenuItem icon={<FaBookmark />} text="Save to playlist" />
-                <MenuItem icon={<FaDownload />} text="Download" />
-                <MenuItem icon={<FaShare />} text="Share" />
-                <hr className="border-gray-700 my-1" />
-                <MenuItem icon={<FaBan />} text="Not interested" />
-                <MenuItem icon={<FaBan />} text="Don't recommend channel" />
-                <MenuItem icon={<FaFlag />} text="Report" />
-              </ul>
+        <div className="mr-3">
+          {user.avatar ? (
+            <img
+              className="w-10 h-10 rounded-full cursor-pointer"
+              src={user.avatar}
+              alt="User Avatar"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full cursor-pointer bg-gray-600 flex items-center justify-center">
+              <span className="text-gray-300">?</span>
             </div>
           )}
+        </div>
+
+        <div>
+          <h3 className="text-md font-semibold cursor-pointer">
+            {title || "Untitled Video"}
+          </h3>
+          <p className="text-sm text-gray-400 cursor-pointer">
+            {views || 0} views • {createdAt ? timeAgo(createdAt) : "Unknown Date"}
+          </p>
+          <p className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold">
+            {user.username || "Unknown User"}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
-
-// Menu Item Component
-const MenuItem = ({ icon, text }) => (
-  <li className="flex items-center px-4 py-2 hover:bg-gray-800 cursor-pointer">
-    <span className="mr-3 text-lg">{icon}</span>
-    {text}
-  </li>
-);
 
 export default VideoThumbnail;

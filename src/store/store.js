@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import videoReducer from "../feature/videoSlice";
+import authReducer from "../feature/authSlice";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
-    video: videoReducer,
+    auth: authReducer,
   },
 });
+
+export default store;

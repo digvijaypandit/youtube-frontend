@@ -2,7 +2,8 @@ import React,{useState} from "react";
 import { FaBell, FaUserCircle, FaTh } from "react-icons/fa";
 import SearchBox from "../SearchBox";
 import NavigationBar from "../NavigationBar";
-import Sidebar from '../sidebar/Sidebar'
+import Sidebar from '../sidebar/Sidebar';
+import Logout from "../Logout";
 
 function Header() {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -12,7 +13,7 @@ function Header() {
   };
 
   return (
-    <div className="flex p-8 items-center justify-between bg-[#181818] px-4 py-2 fixed w-screen">
+    <div className="flex p-8 items-center justify-between bg-[#181818] px-4 py-2 fixed w-screen z-50">
       <NavigationBar  toggleSidebar={toggleSidebar}/>
       <SearchBox />
 
@@ -20,6 +21,7 @@ function Header() {
         <FaTh className="text-white text-xl cursor-pointer" />
         <FaBell className="text-white text-xl cursor-pointer" />
         <FaUserCircle className="text-white text-2xl cursor-pointer" />
+        <Logout />  
       </div>
       <Sidebar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
     </div>
