@@ -1,29 +1,12 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-
-// Function to convert date to "time ago" format
-const timeAgo = (dateString) => {
-  const date = new Date(dateString);
-  const now = new Date();
-  const seconds = Math.floor((now - date) / 1000);
-
-  if (seconds < 60) return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
-  const days = Math.floor(hours / 24);
-  if (days < 30) return `${days} day${days !== 1 ? "s" : ""} ago`;
-  const months = Math.floor(days / 30);
-  if (months < 12) return `${months} month${months !== 1 ? "s" : ""} ago`;
-  const years = Math.floor(months / 12);
-  return `${years} year${years !== 1 ? "s" : ""} ago`;
-};
+import { format } from "timeago.js"; // Import timeago.js
 
 const VideoThumbnail = ({ video }) => {
   if (!video) return null;
 
-  const { title, thumbnail, views, createdAt, duration, owner } = video;
+  const { _id, title, thumbnail, views, createdAt, duration, owner } = video;
 
   // State for user details
   const [user, setUser] = useState({ username: "", avatar: "" });
@@ -62,7 +45,7 @@ const VideoThumbnail = ({ video }) => {
   }, [owner]);
 
   return (
-    <div className="w-88 m-4 bg-[#181818] text-white rounded-lg overflow-hidden shadow-lg">
+    <Link to={`/watch/${_id}`} className="w-88 m-4 bg-[#181818] text-white rounded-lg overflow-hidden shadow-lg">
       <div className="relative">
         <img
           className="w-full h-48 object-cover rounded-xl cursor-pointer"
@@ -94,15 +77,15 @@ const VideoThumbnail = ({ video }) => {
           <h3 className="text-md font-semibold cursor-pointer">
             {title || "Untitled Video"}
           </h3>
-          <p className="text-sm text-gray-400 cursor-pointer">
-            {views || 0} views • {createdAt ? timeAgo(createdAt) : "Unknown Date"}
-          </p>
           <p className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold">
             {user.username || "Unknown User"}
           </p>
+          <p className="text-sm text-gray-400 cursor-pointer">
+            {views || 0} views • {createdAt ? format(createdAt) : "Unknown Date"}
+          </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -39,7 +39,23 @@ const VideoList = () => {
   }, [navigate]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex flex-wrap gap-4 ml-8 p-5 bg-[#181818]">
+      {Array.from({ length: 20 }).map((_, index) => (
+        <div key={index} className="w-full sm:w-[48%] md:w-[48%] lg:w-[32%] xl:w-[32%] 2xl:w-[15%] p-5 space-y-4 bg-[#181818] rounded-lg">
+        <div className="w-full h-48 bg-[#262626] rounded-md mb-2 animate-pulse"></div>
+        <div className="space-y-2 mb-2">
+          <div className="w-3/4 h-4 bg-[#262626] rounded animate-pulse"></div>
+          <div className="w-1/2 h-4 bg-[#262626] rounded animate-pulse"></div>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className="w-10 h-10 bg-[#262626] rounded-full animate-pulse"></div>
+          <div className="w-2/3 h-4 bg-[#262626] rounded animate-pulse"></div>
+        </div>
+      </div>
+      ))}
+      </div>
+    );
   }
 
   return (

@@ -1,39 +1,47 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { format } from "timeago.js";  // Import timeago.js
 
-const VideoDescription = () => {
-  const [videoInfo, setVideoInfo] = useState(null);
+const VideoDescription = ({ videoInfo, channelInfo }) => {
   const [expanded, setExpanded] = useState(false);
 
-  useEffect(() => {
-    // Replace with your API endpoint
-    axios.get("https://api.example.com/video-description")
-      .then(response => {
-        setVideoInfo(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching video description:", error);
-      });
-  }, []);
-
-  if (!videoInfo) {
+  if (!videoInfo || !channelInfo) {
     return <div className="text-white p-4">Loading...</div>;
   }
 
   return (
-    <div className="bg-gray-900 text-white p-4 rounded-lg">
+    <div className="bg-[#262626] text-white p-4 mt-4 rounded-lg">
       {/* Video Stats */}
-      <p className="text-gray-400 font-semibold">
-        {videoInfo.views} views • {videoInfo.uploadDate} 
-        {videoInfo.tags && videoInfo.tags.map((tag, index) => (
-          <span key={index} className="text-blue-400 ml-2">#{tag}</span>
+      <p className="text-white text-sm">
+        {videoInfo.data.views} views • {format(videoInfo.data.createdAt)}
+        {videoInfo.data.tags && videoInfo.data.tags.map((tag, index) => (
+          <span key={index} className="text-blue-400 ml-2"> #{tag} </span>
         ))}
       </p>
 
-      {/* Description Preview */}
-      <p className="mt-2">
-        {expanded ? videoInfo.fullDescription : videoInfo.shortDescription}
-      </p>
+      {/* Description or Channel Info */}
+      {expanded ? (
+        <div>
+          <p className="mt-2">{videoInfo.data.title}</p>
+          <br />
+          <p className="mt-2">{videoInfo.data.discription}</p>
+          <br />
+          <div className="flex items-center mt-2">
+            <img
+              src={channelInfo.data.avatar || "/default-avatar.png"}
+              className="w-10 h-10 rounded-full"
+              alt={channelInfo.data.username}
+            />
+            <div className="ml-3">
+              <p className="font-bold">{channelInfo.data.username}</p>
+              <p className="text-gray-400 text-sm">
+                {channelInfo.data.subscribers || 0} subscribers
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <p className="mt-2">{videoInfo.data.title}</p>
+      )}
 
       {/* Toggle Button */}
       <button
