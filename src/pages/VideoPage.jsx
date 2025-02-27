@@ -3,6 +3,7 @@ import VideoPlayer from '../components/VideoPlayer'
 import VideoInfoCard from '../components/VideoInfoCard'
 import Header from '../components/header/Header'
 import SmallVideoCards from './SmallVideoCards'
+import CommentSection from '../components/CommentSection'
 function VideoPage() {
   return (
     <div>
@@ -11,6 +12,7 @@ function VideoPage() {
             <div>
                 <VideoPlayer />
                 <VideoInfoCard/>
+                <CommentSection />
             </div>
             <SmallVideoCards />
         </div>

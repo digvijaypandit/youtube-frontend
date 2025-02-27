@@ -5,6 +5,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { BiLike, BiDislike } from "react-icons/bi";
 import { TbShare3 } from "react-icons/tb";
 import VideoDescription from '../components/VideoDescription';
+import ShareComponent from "./ShareComponent";
 import millify from "millify";
 
 const VideoInfoCard = () => {
@@ -13,10 +14,11 @@ const VideoInfoCard = () => {
   const [channelDetails, setChannelDetails] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isShare, setIsShare] = useState(false)
 
   useEffect(() => {
     if (!videoId) return;
-  
+
     const fetchVideoAndChannel = async () => {
       try {
         const token = localStorage.getItem("accessToken");
@@ -27,7 +29,7 @@ const VideoInfoCard = () => {
         const videoRes = await axios.get(`http://localhost:8000/api/v1/videos/${videoId}`, { headers });
         const videoData = videoRes.data;
         setVideoDetails(videoData);
-  
+
         const channelId = videoData.data.owner;
         const channelRes = await axios.get(`http://localhost:8000/api/v1/users/c/${channelId}`, { headers });
         setChannelDetails(channelRes.data);
@@ -35,20 +37,20 @@ const VideoInfoCard = () => {
         if (token) {
           const subRes = await axios.get(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, { headers });
           const subscribersList = subRes.data.data;
-  
+
           const isUserSubscribed = subscribersList.some(sub => sub.subscriber._id === userId);
           setIsSubscribed(isUserSubscribed);
         }
-  
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
       }
     };
-  
+
     fetchVideoAndChannel();
-  }, [videoId,isSubscribed]);
+  }, [videoId, isSubscribed]);
 
   const handleSubscriptionToggle = async () => {
     try {
@@ -63,7 +65,7 @@ const VideoInfoCard = () => {
 
       await axios.post(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, {}, { headers });
       console.log("subscribe");
-      
+
       setIsSubscribed((prev) => !prev);
     } catch (error) {
       console.error("Error toggling subscription:", error);
@@ -94,9 +96,8 @@ const VideoInfoCard = () => {
           </div>
 
           <button
-            className={`ml-4 px-4 py-2 rounded-full cursor-pointer font-semibold ${
-              isSubscribed ? "bg-[#262626] text-white" : "bg-white text-black"
-            }`}
+            className={`ml-4 px-4 py-2 rounded-full cursor-pointer font-semibold ${isSubscribed ? "bg-[#262626] text-white" : "bg-white text-black"
+              }`}
             onClick={handleSubscriptionToggle}
           >
             {isSubscribed ? "Subscribed" : "Subscribe"}
@@ -112,9 +113,21 @@ const VideoInfoCard = () => {
               <BiDislike />
             </button>
           </div>
-          <button className="flex items-center bg-[#262626] px-4 py-2 rounded-full cursor-pointer hover:bg-[#4e4e4ec7] text-white">
-            <TbShare3 className="mr-2" /> Share
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setIsShare(prev => !prev)}
+              className="flex items-center bg-[#262626] px-4 py-2 rounded-full cursor-pointer hover:bg-[#4e4e4ec7] text-white"
+            >
+              <TbShare3 className="mr-2" /> Share
+            </button>
+
+            {isShare && (
+              <div className="absolute top-full mt-2 right-0 z-10 bg-gray-900 p-3 rounded-lg shadow-lg">
+                <ShareComponent />
+              </div>
+            )}
+          </div>
+
           <button className="bg-[#262626] p-3 cursor-pointer rounded-full hover:bg-[#4e4e4ec7] text-white">
             <BsThreeDots />
           </button>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "timeago.js";
+import millify from "millify";
 
 const SmallVideoCard = ({ video, channel }) => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const SmallVideoCard = ({ video, channel }) => {
             {channel.data.username}
           </p>
           <p className="text-gray-400 text-xs">
-            {video.views} views • {format(video.createdAt)}
+            {millify(video.views)} views • {format(video.createdAt)}
           </p>
         </div>
       </div>
