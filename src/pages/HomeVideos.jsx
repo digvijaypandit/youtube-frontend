@@ -40,7 +40,7 @@ const VideoList = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-wrap gap-4 ml-8 p-5 bg-[#181818]">
+      <div className="flex flex-wrap gap-4 ml-8 p-5 bg-[#0f0f0f]">
       {Array.from({ length: 20 }).map((_, index) => (
         <div key={index} className="w-full sm:w-[48%] md:w-[48%] lg:w-[32%] xl:w-[32%] 2xl:w-[15%] p-5 space-y-4 bg-[#181818] rounded-lg">
         <div className="w-full h-48 bg-[#262626] rounded-md mb-2 animate-pulse"></div>
@@ -59,7 +59,7 @@ const VideoList = () => {
   }
 
   return (
-    <div className="flex flex-wrap gap-4 p-5 bg-[#181818]">
+    <div className="flex flex-wrap gap-4 p-5  bg-white dark:bg-black text-black dark:text-white">
       {Array.isArray(videos) && videos.length > 0 ? (
         videos.map((video) => (
           <div key={video._id} className="w-full sm:w-[48%] md:w-[48%] lg:w-[32%] xl:w-[32%] 2xl:w-[15%] p-2">

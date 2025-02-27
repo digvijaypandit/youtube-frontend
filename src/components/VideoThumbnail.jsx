@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { format } from "timeago.js"; // Import timeago.js
+import { format } from "timeago.js";
+import millify from "millify";
 
 const VideoThumbnail = ({ video }) => {
   if (!video) return null;
@@ -45,7 +46,7 @@ const VideoThumbnail = ({ video }) => {
   }, [owner]);
 
   return (
-    <Link to={`/watch/${_id}`} className="w-88 m-4 bg-[#181818] text-white rounded-lg overflow-hidden shadow-lg">
+    <Link to={`/watch/${_id}`} className="w-88 m-4  bg-white dark:bg-black text-black dark:text-white rounded-lg overflow-hidden shadow-lg">
       <div className="relative">
         <img
           className="w-full h-48 object-cover rounded-xl cursor-pointer"
@@ -81,12 +82,11 @@ const VideoThumbnail = ({ video }) => {
             {user.username || "Unknown User"}
           </p>
           <p className="text-sm text-gray-400 cursor-pointer">
-            {views || 0} views • {createdAt ? format(createdAt) : "Unknown Date"}
+          {millify(views || 0)} views • {createdAt ? format(createdAt) : "Unknown Date"}
           </p>
         </div>
       </div>
     </Link>
   );
 };
-
 export default VideoThumbnail;

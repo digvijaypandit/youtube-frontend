@@ -47,7 +47,7 @@ const SearchVideo = () => {
   };
 
   return (
-    <div className="flex bg-black text-white p-3 rounded-lg max-w-5xl shadow-lg">
+    <div className="flex bg-white dark:bg-black text-black dark:text-white p-3 rounded-lg max-w-5xl shadow-lg">
       {/* Thumbnail / Video */}
       <div
         className="relative w-[40%] h-[40%] flex-shrink-0 rounded-lg overflow-hidden"

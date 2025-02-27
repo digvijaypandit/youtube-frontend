@@ -8,7 +8,6 @@ const VideoPlayer = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-
     if (!videoId) {
       setError("No video ID found in URL.");
       setLoading(false);
@@ -16,7 +15,6 @@ const VideoPlayer = () => {
     }
 
     const fetchVideo = async () => {
-      console.log("Fetching video for ID:", videoId);
 
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
@@ -43,7 +41,6 @@ const VideoPlayer = () => {
 
         if (result.success && result.data?.videoFile) {
           setVideoSrc(result.data.videoFile);
-          console.log("Video URL:", result.data.videoFile);
         } else {
           throw new Error("Invalid video data");
         }
@@ -63,8 +60,8 @@ const VideoPlayer = () => {
   if (!videoSrc) return <p>Video not found</p>;
 
   return (
-    <div className="m-4">
-      <video controls width="720" height="360">
+    <div className="m-6 ">
+      <video key={videoSrc} controls width="720" height="360">
         <source src={videoSrc} type="video/mp4" />
         Your browser does not support the video tag.
       </video>

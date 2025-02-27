@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../feature/authSlice";
 import { useNavigate } from "react-router-dom";
+import { PiSignIn } from "react-icons/pi";
 
 function Logout() {
   const dispatch = useDispatch();
@@ -12,12 +13,7 @@ function Logout() {
   };
 
   return (
-    <button
-      onClick={handleLogout}
-      className="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 focus:ring-4 focus:ring-red-500"
-    >
-      Logout
-    </button>
+    <h5 onClick={handleLogout} className='px-2 flex items-center'><span className='px-2'><PiSignIn className="w-7 h-7"/></span>Sign out</h5>
   );
 }
 
