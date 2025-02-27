@@ -8,9 +8,7 @@ import VideoPage from "./pages/VideoPage";
 import './app.css'
 import ThemeSwitcher from "./components/ThemeSwitcher";
 
-function App() {
-  console.log(localStorage.getItem("theme") );
-  
+function App() {  
   return (
     <ThemeSwitcher>
       <div className="bg-white dark:bg-black text-black dark:text-white">
