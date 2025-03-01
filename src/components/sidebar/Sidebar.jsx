@@ -29,7 +29,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
           <SidebarItem id={1} icon={<MdHome />} label="Home" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 1} />
           <SidebarItem id={2} icon={<SiYoutubeshorts />} label="Shorts" path="/shorts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 2} />
           <SidebarItem id={3} icon={<MdSubscriptions />} label="Subscriptions" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 3} />
-          <SidebarItem id={4} icon={<FaUserCircle />} label="You" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 4} />
+          <SidebarItem id={4} icon={<FaUserCircle />} label="You" path="/feed/you" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 4} />
           </div>
           {!isCollapsed && (
             <>

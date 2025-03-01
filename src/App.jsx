@@ -7,6 +7,7 @@ import VideoThumbnail from "./components/VideoThumbnail";
 import VideoPage from "./pages/VideoPage";
 import './app.css'
 import ThemeSwitcher from "./components/ThemeSwitcher";
+import Dashboard from "./pages/Dashboard";
 
 function App() {  
   return (
@@ -17,8 +18,9 @@ function App() {
           <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/watch/:videoId" element={<VideoPage />} />
-          <Route path="/test" element={<VideoThumbnail />} />
+          <Route path="/watch/:videoId" element={<PrivateRoute><VideoPage /></PrivateRoute>} />
+          <Route path="/feed/you" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+          <Route path="/test" element={<PrivateRoute><VideoThumbnail /></PrivateRoute>} />
         </Routes>
       </Router>
     </div>

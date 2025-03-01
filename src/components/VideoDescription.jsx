@@ -13,8 +13,8 @@ const VideoDescription = ({ videoInfo, channelInfo }) => {
     <div className="bg-[#262626] text-white p-4 mt-4 rounded-lg">
       {/* Video Stats */}
       <p className="text-white text-sm">
-        {millify(videoInfo.data.views)} views • {format(videoInfo.data.createdAt)}
-        {videoInfo.data.tags && videoInfo.data.tags.map((tag, index) => (
+        {millify(videoInfo.views)} views • {format(videoInfo.createdAt)}
+        {videoInfo.tags && videoInfo.tags.map((tag, index) => (
           <span key={index} className="text-blue-400 ml-2"> #{tag} </span>
         ))}
       </p>
@@ -22,9 +22,9 @@ const VideoDescription = ({ videoInfo, channelInfo }) => {
       {/* Description or Channel Info */}
       {expanded ? (
         <div>
-          <p className="mt-2">{videoInfo.data.title}</p>
+          <p className="mt-2">{videoInfo.title}</p>
           <br />
-          <p className="mt-2">{videoInfo.data.description}</p>
+          <p className="mt-2">{videoInfo.description}</p>
           <br />
           <div className="flex items-center mt-2">
             <img
@@ -40,7 +40,7 @@ const VideoDescription = ({ videoInfo, channelInfo }) => {
           </div>
         </div>
       ) : (
-        <p className="mt-2">{videoInfo.data.title}</p>
+        <p className="mt-2">{videoInfo.title}</p>
       )}
 
       {/* Toggle Button */}

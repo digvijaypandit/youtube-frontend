@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { format } from "timeago.js";
 import millify from "millify";
 
-const SmallVideoCard = ({ video, channel }) => {
+const SmallVideoCard = ({ video, channel, clas="w-[400px]", imgWidth="w-[45%]", textWidth="w-[55%] gap-2 "}) => {
   const navigate = useNavigate();
   
   const handleNavigation = (e) => {
@@ -12,9 +12,9 @@ const SmallVideoCard = ({ video, channel }) => {
   };
 
   return (
-    <div to={`/watch/${video._id}`} className="w-[400px] flex cursor-pointer p-2" onClick={handleNavigation} >
+    <div to={`/watch/${video._id}`} className={`flex ${clas} cursor-pointer p-2`} onClick={handleNavigation} >
       {/* Thumbnail */}
-      <div className="relative w-[45%]">
+      <div className={`relative ${imgWidth}`}>
         <img 
           src={video.thumbnail}
           className="rounded-lg w-full h-[100px] object-cover" 
@@ -26,7 +26,7 @@ const SmallVideoCard = ({ video, channel }) => {
       </div>
 
       {/* Video Details */}
-      <div className="m-2 flex w-[55%] gap-2">
+      <div className={`m-2 flex ${textWidth}`}>
         {/* Video Info */}
         <div>
           <h3 className="text-white font-semibold text-sm line-clamp-2">

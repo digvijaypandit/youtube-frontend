@@ -25,7 +25,7 @@ const ShareComponent = () => {
   };
 
   return (
-    <div className="bg-gray-900 p-4 rounded-lg shadow-lg text-white w-[350px]">
+    <div className="fixed top-[40%] left-[40%] z-40 bg-gray-950 p-4 rounded-lg shadow-lg text-white w-[350px]">
       <h3 className="text-lg font-semibold mb-3">Share</h3>
       <div className="flex justify-between items-center space-x-4">
         {/* WhatsApp */}
