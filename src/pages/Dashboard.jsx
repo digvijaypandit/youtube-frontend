@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/header/Header';
 import axios from 'axios';
 import SmallVideoCard from '../components/SmallVideoCard';
+import PlaylistCard from '../components/PlaylistCard';
 
 function Dashboard() {
     const [userData, setUserData] = useState(null);
     const [watchHistory, setWatchHistory] = useState([]);
+    const [playlist, setPlaylist] = useState([])
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const userId = user?._id;
+
         const fetchUserDataAndHistory = async () => {
             setLoading(true);
             const accessToken = localStorage.getItem("accessToken");
@@ -47,6 +52,16 @@ function Dashboard() {
 
                 setWatchHistory(historyResponse.data.data);
 
+                const Playlists = await axios.get(
+                    `http://localhost:8000/api/v1/playlist/user/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    },
+                }
+                );
+
+                setPlaylist(Playlists.data.data);
+
             } catch (err) {
                 console.error("Fetch error:", err.message);
                 setError(err.message);
@@ -82,14 +97,15 @@ function Dashboard() {
                         <h3 className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>History</h3>
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
-                    <div className='flex items-center overflow-x-auto'>
+                    <div className='flex items-center max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:hidden'>
                         {watchHistory.map((video) => (
-                            <SmallVideoCard 
-                                key={video._id} 
-                                video={video} 
-                                clas={"flex-col w-[600px] h-[200px] gap-0"}
-                                imgWidth={""}
-                                textWidth={""}
+                            <SmallVideoCard
+                                key={video._id}
+                                video={video}
+                                mainDiv={"w-[400px] m-2 bg-black rounded-md flex flex-col shadow-lg relative cursor-pointer"}
+                                imgDiv={"relative"}
+                                imgelem={"w-[386px] rounded-md flex flex-col shadow-lg relative cursor-pointer"}
+                                textelem={"w-[250px] p-2"}
                                 channel={{ data: video.owner }}
                             />
                         ))}
@@ -98,13 +114,45 @@ function Dashboard() {
                         <h3 className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>Playlists</h3>
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
+                    <div className='flex items-center overflow-x-auto [&::-webkit-scrollbar]:hidden'>
+                        {playlist.map((item) => (
+                            <PlaylistCard
+                                key={item._id}
+                                playlist={item}
+                            />
+                        ))}
+                    </div>
                     <div className='ml-3 py-6 flex items-center justify-between'>
                         <h3 className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>Watch Later</h3>
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
+                    <div className='flex items-center overflow-x-auto'>
+                        {watchHistory.map((video) => (
+                            <SmallVideoCard
+                                key={video._id}
+                                video={video}
+                                clas={"flex-col w-[600px] gap-0"}
+                                imgWidth={""}
+                                textWidth={""}
+                                channel={{ data: video.owner }}
+                            />
+                        ))}
+                    </div>
                     <div className='ml-3 py-6 flex items-center justify-between'>
                         <h3 className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>Liked videos</h3>
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
+                    </div>
+                    <div className='flex items-center overflow-x-auto'>
+                        {watchHistory.map((video) => (
+                            <SmallVideoCard
+                                key={video._id}
+                                video={video}
+                                clas={"flex-col w-[600px] gap-0"}
+                                imgWidth={""}
+                                textWidth={""}
+                                channel={{ data: video.owner }}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

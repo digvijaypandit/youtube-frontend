@@ -48,7 +48,7 @@ function Header({ hiddensidebar }) {
 
       <div className="flex items-center space-x-4 relative">
         {/* Create Button */}
-        <div className="m-2 flex items-center justify-around bg-white dark:bg-black text-black dark:text-white p-2 px-4 cursor-pointer rounded-full hover-theme">
+        <div className="m-2 flex items-center justify-around bg-[#f2f2f2] dark:bg-[#262626] p-2 px-4 cursor-pointer rounded-full hover-theme">
           <FaPlus className="text-black dark:text-white" />
           <h5 className="text-black dark:text-white ml-2">Create</h5>
         </div>

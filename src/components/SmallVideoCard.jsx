@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { format } from "timeago.js";
 import millify from "millify";
 
-const SmallVideoCard = ({ video, channel, clas="w-[400px]", imgWidth="w-[45%]", textWidth="w-[55%] gap-2 "}) => {
+const SmallVideoCard = ({ video, channel, mainDiv="flex w-[400px] cursor-pointer p-2", imgDiv="relative w-[45%]", imgelem="rounded-lg w-full h-[100px] object-cover", textelem="m-2 flex w-[55%] gap-2 "}) => {
   const navigate = useNavigate();
   
   const handleNavigation = (e) => {
@@ -12,12 +12,12 @@ const SmallVideoCard = ({ video, channel, clas="w-[400px]", imgWidth="w-[45%]", 
   };
 
   return (
-    <div to={`/watch/${video._id}`} className={`flex ${clas} cursor-pointer p-2`} onClick={handleNavigation} >
+    <div to={`/watch/${video._id}`} className={`${mainDiv}`} onClick={handleNavigation} >
       {/* Thumbnail */}
-      <div className={`relative ${imgWidth}`}>
+      <div className={`${imgDiv}`}>
         <img 
           src={video.thumbnail}
-          className="rounded-lg w-full h-[100px] object-cover" 
+          className={`${imgelem}`}
         />
         <span className="absolute bottom-2 right-2 bg-[#262626ad] text-white text-xs px-1 py-0.5 rounded">
           {Math.floor((video.duration || 0) / 60)}:
@@ -26,7 +26,7 @@ const SmallVideoCard = ({ video, channel, clas="w-[400px]", imgWidth="w-[45%]", 
       </div>
 
       {/* Video Details */}
-      <div className={`m-2 flex ${textWidth}`}>
+      <div className={`${textelem}`}>
         {/* Video Info */}
         <div>
           <h3 className="text-white font-semibold text-sm line-clamp-2">
