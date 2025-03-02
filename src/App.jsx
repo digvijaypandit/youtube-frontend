@@ -8,8 +8,7 @@ import VideoPage from "./pages/VideoPage";
 import './app.css'
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import Dashboard from "./pages/Dashboard";
-import PlaylistCard from "./components/PlaylistCard";
-import Playlist from "./pages/Playlist";
+import PlaylistPage from "./pages/PlaylistPage";
 
 function App() {  
   return (
@@ -22,8 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/watch/:videoId" element={<PrivateRoute><VideoPage /></PrivateRoute>} />
           <Route path="/feed/you" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-          <Route path="/playlist/:playlist" element={<PrivateRoute><Playlist /></PrivateRoute>} />
-          <Route path="/test" element={<PrivateRoute><PlaylistCard /></PrivateRoute>} />
+          <Route path="/playlist/:playlistId" element={<PrivateRoute><PlaylistPage /></PrivateRoute>} />
         </Routes>
       </Router>
     </div>

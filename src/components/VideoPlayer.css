@@ -1,0 +1,75 @@
+@import url("https://cdn.plyr.io/3.7.8/plyr.css");
+
+:root {
+    --plyr-color-main: #0000005c;
+    --plyr-range-fill-background: #ff0000;
+    --plyr-range-thumb-background: #ff0000;
+    --plyr-video-control-color: #fff;
+    --plyr-video-control-bg: #333;
+    --plyr-range-track-background: #666;
+}
+
+.plyr__controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.plyr__progress {
+    order: -1;
+    margin-bottom: 5px;
+    width: 98%;
+    position: absolute;
+    top: 20px;
+}
+
+.plyr__controls__item.plyr__volume {
+    position: absolute;
+    left: 40px;
+}
+
+.plyr__controls__item.plyr__time {
+    position: absolute;
+    left: 180px;
+}
+
+.plyr__controls button {
+    color: #fff !important;
+}
+
+.plyr__time, .plyr__volume {
+    color: #fff;
+}
+
+.plyr__controls button:focus {
+    outline: none;
+    background-color: transparent;
+}
+
+.plyr__controls > button[data-plyr="mute"] {
+    position: relative;
+    bottom: 0;
+}
+
+.plyr__volume input[type="range"] {
+    accent-color: #fff;
+}
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.video-container video {
+    max-width: 100%;
+    height: auto;
+}
+
+.plyr__menu .plyr__menu__container {
+    background-color: #333 !important;
+    border: 1px solid #555 !important;
+}
