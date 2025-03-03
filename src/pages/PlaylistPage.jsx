@@ -3,15 +3,17 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import PlaylistVideoCard from "../components/PlaylistVideoCard";
 import Header from "../components/header/Header";
-import { FaPlus,FaPen } from "react-icons/fa6";
+import { FaPlus, FaPen } from "react-icons/fa6";
 import { TbShare3 } from "react-icons/tb";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import ShareComponent from "../components/ShareComponent";
 
 const PlaylistPage = () => {
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
   const [loading, setLoading] = useState(true);
   const accessToken = localStorage.getItem("accessToken");
+  const [isShare, setIsShare] = useState(false);
 
   useEffect(() => {
     const fetchPlaylist = async () => {
@@ -63,18 +65,19 @@ const PlaylistPage = () => {
               <h2 className="text-xl font-semibold">{playlist.name}</h2>
               <div className="flex items-center mt-1 text-sm text-white">
                 <div className="flex items-center">
-                    <img src={playlist.onwer.avatar} className="rounded-full w-8 h-8 mr-2" />
+                  <img src={playlist.onwer.avatar} className="rounded-full w-8 h-8 mr-2" />
                   <span className="">by {playlist.onwer.fullName}</span>
                 </div>
               </div>
               <div className="text-sm text-[#ababab] mt-2">
-                Playlist • Public • {playlist.video.length} videos 
+                Playlist • Public • {playlist.video.length} videos
               </div>
             </div>
 
             {/* Buttons */}
             <div className="flex justify-between mt-4">
-              <button className="flex items-center cursor-pointer bg-white text-gray-800 rounded-full py-1 px-4 font-semibold">
+              <div>
+                <button className="flex items-center cursor-pointer bg-white text-gray-800 rounded-full py-1 px-4 font-semibold">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -91,19 +94,32 @@ const PlaylistPage = () => {
                 </svg>
                 Play all
               </button>
+              </div>
               <div className="flex gap-2 text-white">
-                <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
+                <div>
+                  <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
                   <FaPlus />
                 </button>
-                <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
+                </div>
+                <div> <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
                   <FaPen />
                 </button>
-                <button className="p-3 rounded-full cursor-pointer w-10 h-10 bg-gray-800 hover:bg-gray-700">
-                <TbShare3 />
-                </button>
-                <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
-                  <BsThreeDotsVertical />
-                </button>
+                </div>
+                <div>
+                  <button  onClick={() => setIsShare((prev) => !prev)} className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
+                    <TbShare3 />
+                  </button>
+                  {isShare && (
+                    <div className="scale-z-50 relative -top-80 -left-70 shadow-lg p-4 rounded-md">
+                      <ShareComponent />
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
+                    <BsThreeDotsVertical />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

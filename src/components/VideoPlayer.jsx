@@ -4,14 +4,12 @@ import "plyr/dist/plyr.css";
 import "./VideoPlayer.css";  
 
 const VideoPlayer = ({ videoSrc }) => {
-  console.log(videoSrc);
   const videoRef = useRef(null);
   const [player, setPlayer] = useState(null);
 
-  // Define different video sources based on quality
   const videoSources = [
     {
-      src: videoSrc, // Original URL for auto quality
+      src: videoSrc,
       quality: "auto",
     },
     {

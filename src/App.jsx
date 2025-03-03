@@ -13,7 +13,7 @@ import PlaylistPage from "./pages/PlaylistPage";
 function App() {  
   return (
     <ThemeSwitcher>
-      <div className="bg-white dark:bg-black text-black dark:text-white">
+      <div className="bg-white dark:bg-[#0f0f0f] text-black dark:text-white">
       <Router>
         <Routes>
           <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />

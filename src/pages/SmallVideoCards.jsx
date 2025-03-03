@@ -67,7 +67,7 @@ const SmallVideoCards = () => {
   }
 
   return (
-    <div className="flex flex-col my-2  bg-white dark:bg-black text-black dark:text-white">
+    <div className="flex flex-col my-2  bg-white dark:bg-[#0f0f0f] text-black dark:text-white">
       {videos.length > 0 ? (
         videos.map((video) => (
           <SmallVideoCard key={video._id} video={video} channel={video.ownerDetails} />
