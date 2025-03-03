@@ -46,7 +46,7 @@ const PlaylistPage = () => {
     <>
       <Header />
       <div className='p-16 max-w-screen'>
-        <div className="min-h-screen bg-black text-white p-5 flex">
+        <div className="min-h-screen bg-[#0f0f0f] text-white p-5 flex">
           <div className="max-w-sm bg-gradient-to-b fixed from-[#343232] to-[#101010] rounded-xl shadow-lg text-white p-4">
             {/* Thumbnail */}
             <div className="relative">

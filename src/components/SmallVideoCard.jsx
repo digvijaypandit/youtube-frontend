@@ -12,7 +12,7 @@ const SmallVideoCard = ({ video, channel, mainDiv="flex w-[400px] cursor-pointer
   };
 
   return (
-    <div to={`/watch/${video._id}`} className={`${mainDiv}`} onClick={handleNavigation} >
+    <div to={`/watch/${video._id}`} className={`${mainDiv} bg-[#0f0f0f]`} onClick={handleNavigation} >
       {/* Thumbnail */}
       <div className={`${imgDiv}`}>
         <img 

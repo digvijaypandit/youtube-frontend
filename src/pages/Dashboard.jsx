@@ -79,7 +79,7 @@ function Dashboard() {
     return (
         <div>
             <Header />
-            <div className='p-20 max-w-screen'>
+            <div className='p-20 max-w-screen bg-[#0f0f0f]'>
                 <div className='ml-8'>
                     <div className="flex items-center m-2 mt-2">
                         <img
@@ -98,13 +98,13 @@ function Dashboard() {
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
                     <div className='flex items-center max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:hidden'>
-                        {watchHistory.map((video) => (
+                        {watchHistory.slice(0, 8).map((video) => (
                             <SmallVideoCard
                                 key={video._id}
                                 video={video}
-                                mainDiv={"w-[400px] m-2 bg-black rounded-md flex flex-col shadow-lg relative cursor-pointer"}
-                                imgDiv={"relative"}
-                                imgelem={"w-[386px] rounded-md flex flex-col shadow-lg relative cursor-pointer"}
+                                mainDiv={"w-[400px] m-1 rounded-md flex flex-col shadow-lg relative cursor-pointer"}
+                                imgDiv={"relative "}
+                                imgelem={"w-[380px] h-[140px] rounded-md flex flex-col shadow-lg relative cursor-pointer"}
                                 textelem={"w-[250px] p-2"}
                                 channel={{ data: video.owner }}
                             />
@@ -115,7 +115,7 @@ function Dashboard() {
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
                     <div className='flex items-center overflow-x-auto [&::-webkit-scrollbar]:hidden'>
-                        {playlist.map((item) => (
+                        {playlist.slice(0, 8).map((item) => (
                             <PlaylistCard
                                 key={item._id}
                                 playlist={item}
@@ -127,7 +127,7 @@ function Dashboard() {
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
                     <div className='flex items-center overflow-x-auto'>
-                        {watchHistory.map((video) => (
+                        {watchHistory.slice(0, 8).map((video) => (
                             <SmallVideoCard
                                 key={video._id}
                                 video={video}
@@ -143,7 +143,7 @@ function Dashboard() {
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
                     <div className='flex items-center overflow-x-auto'>
-                        {watchHistory.map((video) => (
+                        {watchHistory.slice(0, 8).map((video) => (
                             <SmallVideoCard
                                 key={video._id}
                                 video={video}

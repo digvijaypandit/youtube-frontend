@@ -106,7 +106,7 @@ const VideoInfoCard = ({ videoDetails }) => {
   }
 
   return (
-    <div className="bg-white dark:bg-black text-black dark:text-white p-4 w-3xl">
+    <div className="bg-white dark:bg-[#0f0f0f] text-black dark:text-white p-4 w-3xl">
       <h2 className="text-lg font-semibold mb-2">{videoDetails.title}</h2>
       <div className="flex justify-between items-center">
         <div className="flex items-center">

@@ -59,7 +59,7 @@ const VideoList = () => {
   }
 
   return (
-    <div className="flex flex-wrap gap-4 p-5  bg-white dark:bg-black text-black dark:text-white">
+    <div className="flex flex-wrap gap-4 p-5  bg-white dark:bg-[#0f0f0f] text-black dark:text-white">
       {Array.isArray(videos) && videos.length > 0 ? (
         videos.map((video) => (
           <div key={video._id} className="w-full sm:w-[48%] md:w-[48%] lg:w-[32%] xl:w-[32%] 2xl:w-[15%] p-2">

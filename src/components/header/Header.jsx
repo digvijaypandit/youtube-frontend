@@ -41,10 +41,9 @@ function Header({ hiddensidebar }) {
   }, []);
 
   return (
-    <div className="flex p-8 items-center justify-between bg-white dark:bg-black text-black dark:text-white px-4 py-2 fixed w-screen z-50">
+    <div className="flex p-8 items-center justify-between bg-white dark:bg-[#0f0f0f] text-black dark:text-white px-4 py-2 fixed w-screen z-50">
       <NavigationBar toggleSidebar={toggleSidebar} />
       <SearchBox />
-      
 
       <div className="flex items-center space-x-4 relative">
         {/* Create Button */}

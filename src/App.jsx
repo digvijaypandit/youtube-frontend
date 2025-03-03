@@ -9,6 +9,8 @@ import './app.css'
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import Dashboard from "./pages/Dashboard";
 import PlaylistPage from "./pages/PlaylistPage";
+import UplaodVideo from "./pages/UploadVideo";
+import CreateMenu from "./components/Popup/CreateMenu";
 
 function App() {  
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/watch/:videoId" element={<PrivateRoute><VideoPage /></PrivateRoute>} />
           <Route path="/feed/you" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/playlist/:playlistId" element={<PrivateRoute><PlaylistPage /></PrivateRoute>} />
+          <Route path="/uploads/video" element={<PrivateRoute><UplaodVideo /></PrivateRoute>} />
+          <Route path="/test" element={<PrivateRoute><CreateMenu /></PrivateRoute>} />
         </Routes>
       </Router>
     </div>

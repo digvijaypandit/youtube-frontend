@@ -23,7 +23,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
 
   return (
     <>
-      <div className={`h-[calc(100vh-56px)] fixed top-[56px] left-0 p-2  bg-white dark:bg-black text-black dark:text-white px-2 "max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 transition-all duration-300 ${isCollapsed ? "w-20" : "w-60"} flex flex-col`}>
+      <div className={`h-[calc(100vh-56px)] fixed top-[56px] left-0 p-2  bg-white dark:bg-[#0f0f0f] text-black dark:text-white px-2 "max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 transition-all duration-300 ${isCollapsed ? "w-20" : "w-60"} flex flex-col`}>
         <nav className="space-y-2 flex-1">
           <div className={`${ishidden ? "hidden" : "block"}`}>
           <SidebarItem id={1} icon={<MdHome />} label="Home" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 1} />

@@ -75,23 +75,19 @@ const VideoPlayer = ({ videoSrc }) => {
         },
       });
 
-      // Load sources into Plyr
       plyr.source = sources;
 
       setPlayer(plyr);
 
-      // Cleanup on component unmount
       return () => {
         plyr.destroy();
       };
     }
-  }, [videoSrc]);  // Include videoSrc as a dependency
+  }, [videoSrc]);  
 
   if (videoSources.length === 0) return <p>Video not found</p>;
-
-  // Simplified video source handling
   return (
-    <div className="m-6">
+    <div className="m-6 bg-[#0f0f0f]">
       <video ref={videoRef} controls width="720" height="360">
         <source src={videoSrc} type="video/mp4" />
         Your browser does not support the video tag.

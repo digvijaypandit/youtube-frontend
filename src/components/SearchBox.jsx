@@ -7,7 +7,7 @@ function SearchBox() {
             <input
                 type="text"
                 placeholder="Search"
-                className="w-full bg-white dark:bg-black text-black dark:text-white px-4 py-2 rounded-l-full border border-[#303030] focus:outline-none focus:border-white"
+                className="w-full bg-white dark:bg-[#0f0f0f] text-black dark:text-white px-4 py-2 rounded-l-full border border-[#303030] focus:outline-none focus:border-white"
             />
             <button className="bg-[#303030] px-4 py-2 h-[41px] rounded-r-full border cursor-pointer border-[#303030]">
                 <FaSearch className="text-white" />

@@ -46,7 +46,7 @@ const VideoThumbnail = ({ video }) => {
   }, [owner]);
 
   return (
-    <Link to={`/watch/${_id}`} className="w-88 m-4  bg-white dark:bg-black text-black dark:text-white rounded-lg overflow-hidden shadow-lg">
+    <Link to={`/watch/${_id}`} className="w-88 m-4 mb-20 bg-white dark:bg-[#0f0f0f] text-black dark:text-white rounded-lg overflow-hidden shadow-lg">
       <div className="relative">
         <img
           className="w-full h-48 object-cover rounded-xl cursor-pointer"
@@ -60,7 +60,7 @@ const VideoThumbnail = ({ video }) => {
       </div>
 
       <div className="flex p-3 relative">
-        <div className="mr-3">
+        <div className="mr-3 h-10 w-10 absolute top-5 left-0">
           {user.avatar ? (
             <img
               className="w-10 h-10 rounded-full cursor-pointer"
@@ -74,9 +74,9 @@ const VideoThumbnail = ({ video }) => {
           )}
         </div>
 
-        <div>
+        <div className="max-h-30 overflow-hidden absolute left-12">
           <h3 className="text-md font-semibold cursor-pointer">
-            {title || "Untitled Video"}
+            {title.slice(0,70) || "Untitled Video"}{title.length > 69 ? "..." : ""}
           </h3>
           <p className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold">
             {user.username || "Unknown User"}

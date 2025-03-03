@@ -9,9 +9,9 @@ function PlaylistPlayer() {
   return (
     <div>
       <Header hiddensidebar={true} />
-      <div className="p-14 flex ml-2 max-w-screen">
+      <div className="p-14 flex ml-2 max-w-screen bg-[#0f0f0f]">
         <div>
-          <VideoPlayer videoSrc={videoData.videoFile} />
+          <VideoPlayer videoSrc={videoData.videoFile} className="rounded-full"/>
           <VideoInfoCard videoDetails={videoData} />
           <CommentSection videoId={videoId} />
         </div>

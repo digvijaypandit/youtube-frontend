@@ -6,7 +6,7 @@ function Home() {
   return (
     <div>
         <Header />
-        <div className='p-14 max-w-screen'>
+        <div className='p-14 max-w-screen bg-[#0f0f0f]'>
           <HomeVideos />
         </div>
     </div>

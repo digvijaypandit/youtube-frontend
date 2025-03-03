@@ -6,7 +6,7 @@ import { IoReorderTwoOutline } from "react-icons/io5";
 
 const PlaylistVideoCard = ({video,onwer}) => {
   return (
-    <div className="bg-black cursor-pointer flex min-w-[780px] max-w-[780px] text-[#f2f2f2] hover:bg-[#262626] rounded-lg shadow-lg">
+    <div className="bg-[#0f0f0f] cursor-pointer flex min-w-[780px] max-w-[780px] text-[#f2f2f2] hover:bg-[#262626] rounded-lg shadow-lg">
       <div className='pl-2 relative cursor-grab active:cursor-grabbing top-[35%] '><IoReorderTwoOutline size={30}/></div>
       <div className="relative w-[30%] m-1">
         <img
