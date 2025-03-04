@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format } from "timeago.js";
 import millify from "millify";
 
 const VideoThumbnail = ({ video }) => {
   if (!video) return null;
+  const navigate = useNavigate();
 
   const { _id, title, thumbnail, views, createdAt, duration, owner } = video;
 
-  // State for user details
   const [user, setUser] = useState({ username: "", avatar: "" });
-
-  // Fetch user details
   useEffect(() => {
     if (!owner) return;
 
@@ -46,7 +44,7 @@ const VideoThumbnail = ({ video }) => {
   }, [owner]);
 
   return (
-    <Link to={`/watch/${_id}`} className="w-88 m-4 mb-20 bg-white dark:bg-[#0f0f0f] text-black dark:text-white rounded-lg overflow-hidden shadow-lg">
+    <div onClick={() => navigate(`/watch/${_id}`)} className="w-88 m-4 mb-20 bg-white dark:bg-[#0f0f0f] text-black dark:text-white rounded-lg shadow-lg">
       <div className="relative">
         <img
           className="w-full h-48 object-cover rounded-xl cursor-pointer"
@@ -78,7 +76,10 @@ const VideoThumbnail = ({ video }) => {
           <h3 className="text-md font-semibold cursor-pointer">
             {title.slice(0,60) || "Untitled Video"}{title.length > 60 ? "..." : ""}
           </h3>
-          <p className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold">
+          <p  onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/channel/${user.username}`);
+                    }} className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold">
             {user.username || "Unknown User"}
           </p>
           <p className="text-sm text-gray-400 cursor-pointer">
@@ -86,7 +87,7 @@ const VideoThumbnail = ({ video }) => {
           </p>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 export default VideoThumbnail;

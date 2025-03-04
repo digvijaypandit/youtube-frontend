@@ -1,184 +1,178 @@
-import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import { BiLike, BiDislike } from "react-icons/bi";
-import { BsThreeDots } from "react-icons/bs";
-import { TbShare3 } from "react-icons/tb";
-import millify from "millify";
-import VideoDescription from "../components/VideoDescription";
-import ShareComponent from "./ShareComponent";
-import { set } from "@cloudinary/url-gen/actions/variable";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const VideoInfoCard = ({ videoDetails }) => {
-  const [channelDetails, setChannelDetails] = useState(null);
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [isShare, setIsShare] = useState(false);
-  const [isSameUser, setIsSameUser] = useState(true);
-  const shareRef = useRef(null);
+const ChannelPage = () => {
+    const { username } = useParams();
+    const [channelData, setChannelData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [sameUser, setSameUser] = useState(true);
+    const [isSubscribed, setIsSubscribed] = useState(false);
+    const [userVideos, setUserVideos] = useState([]);
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const userId=user._id;
+    // Fetch user data from local storage
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user?._id;
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (shareRef.current && !shareRef.current.contains(event.target)) {
-        setIsShare(false);
-      }
+    // Fetch channel data based on the username in the URL
+    useEffect(() => {
+        const fetchChannelData = async () => {
+            const accessToken = localStorage.getItem('accessToken');
+
+            if (!accessToken) {
+                console.error('Access token not found.');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await axios.get(`http://localhost:8000/api/v1/users/c/${username}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (response.data.success) {
+                    setChannelData(response.data.data);
+                }
+
+                const channelId = response.data.data._id;
+                const subRes = await axios.get(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+
+                const isUserSubscribed = subRes.data.data.some(
+                    (sub) => sub.subscriber._id === userId
+                );
+                setIsSubscribed(isUserSubscribed);
+
+                const userVideosRes = await axios.get(`http://localhost:8000/api/v1/videos/user/${channelId}`, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+
+                setUserVideos(userVideosRes.data.data);
+                console.log('User videos:', userVideosRes.data.data);
+
+            } catch (error) {
+                console.error('Error fetching channel data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchChannelData();
+    }, [username, userId]);
+
+    useEffect(() => {
+        if (channelData && user) {
+            setSameUser(user.username !== channelData.username);
+        }
+    }, [channelData, user]);
+
+    const handleSubscriptionToggle = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) {
+                alert('You need to log in to subscribe.');
+                return;
+            }
+
+            const headers = { Authorization: `Bearer ${accessToken}` };
+            const channelId = channelData?._id;
+
+            if (!channelId) {
+                console.error('Channel ID not found.');
+                return;
+            }
+
+            // Subscribe or Unsubscribe API call
+            await axios.post(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, {}, { headers });
+
+            // Check updated subscription status
+            const subRes = await axios.get(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, { headers });
+            const isUserSubscribed = subRes.data.data.some(
+                (sub) => sub.subscriber._id === userId
+            );
+
+            setIsSubscribed(isUserSubscribed);
+        } catch (error) {
+            console.error('Error toggling subscription:', error);
+        }
+    };
+
+    // Show loading state
+    if (loading) return <div className="flex justify-center items-center h-screen text-white">Loading...</div>;
+
+    // Show error if channel data fails to load
+    if (!channelData) {
+        return <div className="flex justify-center items-center h-screen text-white">Failed to load channel data.</div>;
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    // Destructure channel data for easier access
+    const {
+        fullName,
+        avatar,
+        coverImage,
+        subscribersCount,
+        channelsSubscribedToCount,
+    } = channelData;
 
-  useEffect(() => {
-    if (!videoDetails?._id) return;
-
-    const fetchVideoAndChannel = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        const user = JSON.parse(localStorage.getItem("user"));
-        const userId = user?._id;
-        const headers = { Authorization: `Bearer ${token}` };
-
-        const channelId = videoDetails.owner;
-        
-        if (userId === channelId) {
-          setIsSameUser(false);
-        } else {
-          setIsSameUser(true);
-        }
-
-        const channelRes = await axios.get(
-          `http://localhost:8000/api/v1/users/c/${channelId}`,
-          { headers }
-        );
-        setChannelDetails(channelRes.data);
-
-        if (token) {
-          const subRes = await axios.get(
-            `http://localhost:8000/api/v1/subscriptions/c/${channelId}`,
-            { headers }
-          );
-          const isUserSubscribed = subRes.data.data.some(
-            (sub) => sub.subscriber._id === userId
-          );
-          setIsSubscribed(isUserSubscribed);
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchVideoAndChannel();
-  }, [videoDetails, isSubscribed]);
-
-  const handleSubscriptionToggle = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        alert("You need to log in to subscribe.");
-        return;
-      }
-
-      const headers = { Authorization: `Bearer ${token}` };
-      const channelId = channelDetails?.data?._id;
-
-      if (!channelId) {
-        console.error("Channel ID not found.");
-        return;
-      }
-
-      await axios.post(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, {}, { headers });
-
-      const subRes = await axios.get(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, { headers });
-      const isUserSubscribed = subRes.data.data.some(
-        (sub) => sub.subscriber._id === JSON.parse(localStorage.getItem("user"))?._id
-      );
-
-      setIsSubscribed(isUserSubscribed);
-    } catch (error) {
-      console.error("Error toggling subscription:", error);
-    }
-  };
-
-
-  if (loading) return <div className="text-white p-4">Loading...</div>;
-
-  if (!videoDetails || !channelDetails) {
     return (
-      <div className="bg-white dark:bg-black text-black dark:text-white p-4">
-        Video or Channel not found.
-      </div>
+        <div className="min-h-screen bg-[#0f0f0f] text-white font-sans">
+            {/* Channel cover image */}
+            <div className="relative top-0 left-0 w-full h-80">
+                <div 
+                    style={{ backgroundImage: `url(${coverImage})` }} 
+                    className="relative bg-cover bg-center rounded-2xl top-0 left-0 w-[85%] sm:h-20 md:h-40 lg:60 bg-white mx-20"
+                ></div>
+                <div className="absolute inset-0 top-40 flex items-center justify-between px-10">
+                    {/* Channel avatar and info */}
+                    <div className="flex items-center space-x-4">
+                        <img
+                            src={avatar}
+                            alt="Avatar"
+                            className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
+                        />
+                        <div>
+                            <h1 className="text-3xl font-bold">{fullName}</h1>
+                            <p className="text-lg">@{channelData.username}</p>
+                            <p className="text-gray-400">
+                                {subscribersCount.toLocaleString()} subscribers • Subscribed to {channelsSubscribedToCount} channels
+                            </p>
+                        </div>
+                    </div>
+                    {sameUser && (
+                        <div className="text-right">
+                            <button
+                                className={`px-6 py-2 rounded ${isSubscribed ? 'bg-gray-400' : 'bg-red-600'} text-white font-medium`}
+                                onClick={handleSubscriptionToggle}
+                            >
+                                {isSubscribed ? 'Subscribed' : 'Subscribe'}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Navigation Tabs */}
+            <div className="mt-8 border-b border-gray-700">
+                <ul className="flex justify-center space-x-8 text-gray-400 font-medium">
+                    <li className="cursor-pointer hover:text-white">Home</li>
+                    <li className="cursor-pointer hover:text-white">Videos</li>
+                    <li className="cursor-pointer hover:text-white">Shorts</li>
+                    <li className="cursor-pointer hover:text-white">Live</li>
+                    <li className="cursor-pointer hover:text-white">Playlists</li>
+                    <li className="cursor-pointer hover:text-white">About</li>
+                </ul>
+            </div>
+
+            {/* Main Content */}
+            <div className="p-6 text-center">
+                <h2 className="text-xl font-semibold mb-4">Recent Videos</h2>
+                <p className="text-gray-500">No videos uploaded yet.</p>
+            </div>
+        </div>
     );
-  }
-
-  return (
-    <div className="bg-white dark:bg-[#0f0f0f] text-black dark:text-white p-4 w-3xl">
-      <h2 className="text-lg font-semibold mb-2">{videoDetails.title}</h2>
-      <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <img
-            src={channelDetails.data.avatar || "/default-avatar.png"}
-            className="w-10 h-10 rounded-full cursor-pointer"
-            alt="Channel Avatar"
-          />
-          <div className="ml-3">
-            <p className="font-bold cursor-pointer">{channelDetails.data.username}</p>
-            <p className="text-gray-400 text-sm">
-              {millify(channelDetails.data.subscribersCount || 0)} subscribers
-            </p>
-          </div>
-
-          {isSameUser && (<button
-            className={`ml-4 px-4 py-2 rounded-full cursor-pointer font-semibold ${isSubscribed ? "bg-[#262626] text-white" : "bg-white text-black"
-              }`}
-            onClick={handleSubscriptionToggle}
-          >
-            {isSubscribed ? "Subscribed" : "Subscribe"}
-          </button>)}
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <div className="flex bg-[#262626] rounded-full">
-            <button className="flex items-center cursor-pointer bg-[#262626] hover:bg-[#4e4e4ec7] px-4 py-2 rounded-tl-full rounded-bl-full text-white">
-              <BiLike className="mr-2" /> {millify(videoDetails.likes || 1500)}
-            </button>
-            <hr className="w-px h-6 my-2 bg-gray-400" />
-            <button className="bg-[#262626] p-3 cursor-pointer rounded-tr-full rounded-br-full hover:bg-[#4e4e4ec7] text-white">
-              <BiDislike />
-            </button>
-          </div>
-
-          <div className="flex items-center justify-center" ref={shareRef}>
-          <button
-            onClick={() => setIsShare((prev) => !prev)}
-            className="flex items-center bg-[#262626] px-4 py-2 rounded-full cursor-pointer hover:bg-[#4e4e4ec7] text-white"
-          >
-            <TbShare3 className="mr-2" /> Share
-          </button>
-
-            {isShare && (
-              <div className="bg-white dark:bg-black shadow-lg p-4 rounded-md">
-                <ShareComponent />
-              </div>
-            )}
-          </div>
-
-
-          <button className="bg-[#262626] p-3 cursor-pointer rounded-full hover:bg-[#4e4e4ec7] text-white">
-            <BsThreeDots />
-          </button>
-        </div>
-      </div>
-
-      <VideoDescription videoInfo={videoDetails} channelInfo={channelDetails} />
-    </div>
-  );
 };
 
-export default VideoInfoCard;
+export default ChannelPage;

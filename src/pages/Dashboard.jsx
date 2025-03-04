@@ -3,8 +3,15 @@ import Header from '../components/header/Header';
 import axios from 'axios';
 import SmallVideoCard from '../components/SmallVideoCard';
 import PlaylistCard from '../components/PlaylistCard';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
+    const navigate = useNavigate();
+    
+    const handleChannel = () => {;
+        navigate(`/channel/${userData?.username}`);
+    };
+    
     const [userData, setUserData] = useState(null);
     const [watchHistory, setWatchHistory] = useState([]);
     const [playlist, setPlaylist] = useState([])
@@ -86,7 +93,7 @@ function Dashboard() {
                             src={userData?.avatar || "/default-avatar.png"}
                             className="w-30 h-30 rounded-full cursor-pointer"
                         />
-                        <div className="ml-4 mb-10">
+                        <div onClick={handleChannel} className="ml-4 mb-10">
                             <p className="font-bold text-4xl cursor-pointer text-[#f2f2f2]">{userData?.fullName}</p>
                             <p className="cursor-pointer pt-1 text-[#ababab]">@{userData?.username} • <span>View channel</span></p>
                         </div>
