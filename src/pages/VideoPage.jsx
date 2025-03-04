@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import VideoPlayer from "../components/VideoPlayer";
 import VideoInfoCard from "../components/VideoInfoCard";
@@ -9,57 +9,47 @@ import CommentSection from "../components/CommentSection";
 const VideoPage = () => {
   const { videoId } = useParams();
   const [videoData, setVideoData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [status, setStatus] = useState("loading"); // 'loading', 'error', or 'success'
+  const accessToken = localStorage.getItem("accessToken"); // Minimize localStorage calls
 
-  useEffect(() => {
-    if (!videoId) {
-      setError("No video ID found.");
-      setLoading(false);
+  const fetchVideoData = useCallback(async () => {
+    if (!videoId) return setStatus("error");
+
+    if (!accessToken) {
+      setStatus("error");
       return;
     }
 
-    const fetchVideoData = async () => {
-      const accessToken = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(`http://localhost:8000/api/v1/videos/${videoId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
 
-      if (!accessToken) {
-        setError("Unauthorized: No access token found.");
-        setLoading(false);
-        return;
+      if (!response.ok) throw new Error("Failed to fetch video");
+
+      const result = await response.json();
+      if (result.success && result.data) {
+        setVideoData(result.data);
+        setStatus("success");
+      } else {
+        throw new Error("Invalid video data");
       }
+    } catch (err) {
+      console.error("Fetch error:", err.message);
+      setStatus("error");
+    }
+  }, [videoId, accessToken]);
 
-      try {
-        const response = await fetch(`http://localhost:8000/api/v1/videos/${videoId}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch video");
-        }
-
-        const result = await response.json();
-        if (result.success && result.data) {
-          setVideoData(result.data);
-        } else {
-          throw new Error("Invalid video data");
-        }
-      } catch (err) {
-        console.error("Fetch error:", err.message);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+  useEffect(() => {
     fetchVideoData();
-  }, [videoId]);
+  }, [fetchVideoData]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (status === "loading") return <p>Loading...</p>;
+  if (status === "error") return <p>Error loading video.</p>;
   if (!videoData) return <p>Video not found</p>;
 
   return (

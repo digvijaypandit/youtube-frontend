@@ -18,7 +18,7 @@ const CommentsSection = () => {
             console.error("Unauthorized: No access token found.");
             return;
         }
-        console.log(page)
+        
         try {
             const response = await axios.get(
                 `http://localhost:8000/api/v1/comments/${videoId}`,
@@ -31,7 +31,6 @@ const CommentsSection = () => {
                 }
             );
             setComments(response.data.data.docs);
-            console.log(comments);
             setTotalPages(response.data.data.totalPages);
             setTotalComments(response.data.data.totalDocs);
         } catch (error) {

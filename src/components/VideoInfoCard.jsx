@@ -6,13 +6,18 @@ import { TbShare3 } from "react-icons/tb";
 import millify from "millify";
 import VideoDescription from "../components/VideoDescription";
 import ShareComponent from "./ShareComponent";
+import { set } from "@cloudinary/url-gen/actions/variable";
 
 const VideoInfoCard = ({ videoDetails }) => {
   const [channelDetails, setChannelDetails] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isShare, setIsShare] = useState(false);
+  const [isSameUser, setIsSameUser] = useState(true);
   const shareRef = useRef(null);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId=user._id;
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -38,6 +43,13 @@ const VideoInfoCard = ({ videoDetails }) => {
         const headers = { Authorization: `Bearer ${token}` };
 
         const channelId = videoDetails.owner;
+        
+        if (userId === channelId) {
+          setIsSameUser(false);
+        } else {
+          setIsSameUser(true);
+        }
+
         const channelRes = await axios.get(
           `http://localhost:8000/api/v1/users/c/${channelId}`,
           { headers }
@@ -122,13 +134,13 @@ const VideoInfoCard = ({ videoDetails }) => {
             </p>
           </div>
 
-          <button
+          {isSameUser && (<button
             className={`ml-4 px-4 py-2 rounded-full cursor-pointer font-semibold ${isSubscribed ? "bg-[#262626] text-white" : "bg-white text-black"
               }`}
             onClick={handleSubscriptionToggle}
           >
             {isSubscribed ? "Subscribed" : "Subscribe"}
-          </button>
+          </button>)}
         </div>
 
         <div className="flex items-center space-x-2">

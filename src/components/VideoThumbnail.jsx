@@ -76,7 +76,7 @@ const VideoThumbnail = ({ video }) => {
 
         <div className="max-h-30 overflow-hidden absolute left-12">
           <h3 className="text-md font-semibold cursor-pointer">
-            {title.slice(0,70) || "Untitled Video"}{title.length > 69 ? "..." : ""}
+            {title.slice(0,60) || "Untitled Video"}{title.length > 60 ? "..." : ""}
           </h3>
           <p className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold">
             {user.username || "Unknown User"}

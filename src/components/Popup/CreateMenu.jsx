@@ -1,37 +1,23 @@
-import React, { useState } from 'react';
-import { FiVideo, FiRadio, FiEdit } from 'react-icons/fi';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { AiOutlinePlaySquare } from "react-icons/ai";
+import { IoIosCreate } from "react-icons/io";
 
-const CreateMenu = () => {
-  const [isOpen, setIsOpen] = useState(true);
-
+function CreateMenu() {
   return (
-    <div className="relative">
-      <button 
-        className="bg-gray-800 text-white px-4 py-2 rounded-md focus:outline-none"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        Menu
-      </button>
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-40 bg-gray-900 text-white rounded-md shadow-lg z-10">
-          <ul className="py-2">
-            <li className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer">
-              <FiVideo className="mr-2" />
-              Upload video
-            </li>
-            <li className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer">
-              <FiRadio className="mr-2" />
-              Go live
-            </li>
-            <li className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer">
-              <FiEdit className="mr-2" />
-              Create post
-            </li>
-          </ul>
+    <div>
+        <div className='flex bg-[#262626] rounded-lg absolute top-12 right-25'>
+            <ul className='space-y-2'>
+                <Link to={"/uploads/video"} className='hover:bg-[#3d3d3d] py-2 my-2 flex items-center'>
+                    <AiOutlinePlaySquare className='mx-2'/> <h2 className='mr-2'>Upload Video</h2>
+                </Link>
+                <Link to={"/uploads/post"} className='hover:bg-[#3d3d3d] py-2 my-2 flex items-center'>
+                    <IoIosCreate className='mx-2'/><h2 className='mr-2'>Create Post</h2>
+                </Link>
+            </ul>
         </div>
-      )}
     </div>
-  );
-};
+  )
+}
 
 export default CreateMenu;

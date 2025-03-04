@@ -5,7 +5,6 @@ import {
   FaWhatsapp,
   FaTwitter,
   FaEnvelope,
-  FaLink,
 } from "react-icons/fa";
 
 const ShareComponent = () => {
