@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 import SmallVideoCard from '../components/SmallVideoCard';
 import Header from '../components/header/Header'
@@ -152,12 +152,32 @@ const ChannelVideoPage = () => {
                     </div>
 
                     {/* Navigation Tabs */}
-                    <div className="mt-8 border-b border-gray-700">
+                    <div className="mt-8 border-b p-2 sticky top-18 z-30 bg-[#0f0f0f] border-gray-700">
                         <ul className="flex justify-center space-x-8 text-gray-400 font-medium">
-                            <Link to={`/channel/${channelData.username}`} className="cursor-pointer hover:text-white">Home</Link>
-                            <Link to={`/channel/${channelData.username}/videos`} className="cursor-pointer hover:text-white">Videos</Link>
-                            <Link to={`/channel/${channelData.username}/playlists`} className="cursor-pointer hover:text-white">Posts</Link>
-                            <Link to={`/channel/${channelData.username}/community`} className="cursor-pointer hover:text-white">Playlists</Link>
+                            <NavLink
+                                to={`/channel/${channelData.username}`}
+                                className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
+                            >
+                                Home
+                            </NavLink>
+                            <NavLink
+                                to={`/channel/${channelData.username}/videos`}
+                                className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
+                            >
+                                Videos
+                            </NavLink>
+                            <NavLink
+                                to={`/channel/${channelData.username}/playlists`}
+                                className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
+                            >
+                                Posts
+                            </NavLink>
+                            <NavLink
+                                to={`/channel/${channelData.username}/community`}
+                                className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
+                            >
+                                Playlists
+                            </NavLink>
                         </ul>
                     </div>
 
@@ -166,15 +186,15 @@ const ChannelVideoPage = () => {
                         {videosLoading ? (
                             <p className="text-gray-500">Loading videos...</p>
                         ) : userVideos.length > 0 ? (
-                            <div className='flex items-center overflow-y-auto p-2 m-2 max-w-full'>
+                            <div className='flex flex-wrap items-center overflow-y-auto p-2 m-8 max-w-screen'>
                                 {userVideos.map((video) => (
                                     <SmallVideoCard
                                         key={video._id}
                                         video={video}
-                                        mainDiv={"w-[400px] m-1 rounded-md flex flex-col shadow-lg relative cursor-pointer"}
+                                        mainDiv={"w-[300px] m-4 rounded-xl flex flex-col shadow-lg relative cursor-pointer"}
                                         imgDiv={"relative "}
-                                        imgelem={"w-[380px] h-[140px] rounded-md flex flex-col shadow-lg relative cursor-pointer"}
-                                        textelem={"w-[250px] p-2"}
+                                        imgelem={"w-[300px] h-[200px] rounded-md flex flex-col shadow-lg relative cursor-pointer"}
+                                        textelem={"w-[300px] p-2"}
                                         channel={{ data: video.owner }}
                                     />
                                 ))}
