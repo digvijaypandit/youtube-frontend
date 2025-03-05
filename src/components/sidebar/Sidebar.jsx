@@ -16,7 +16,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
 
   const navigate = useNavigate();
 
-  function clickedBtn(id,path) {
+  function clickedBtn(id, path) {
     setActiveId(id);
     navigate(path)
   }
@@ -26,10 +26,10 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
       <div className={`h-[calc(100vh-56px)] fixed top-[56px] left-0 p-2  bg-white dark:bg-[#0f0f0f] text-black dark:text-white px-2 "max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 transition-all duration-300 ${isCollapsed ? "w-20" : "w-60"} flex flex-col`}>
         <nav className="space-y-2 flex-1">
           <div className={`${ishidden ? "hidden" : "block"}`}>
-          <SidebarItem id={1} icon={<MdHome />} label="Home" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 1} />
-          <SidebarItem id={2} icon={<SiYoutubeshorts />} label="Shorts" path="/shorts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 2} />
-          <SidebarItem id={3} icon={<MdSubscriptions />} label="Subscriptions" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 3} />
-          <SidebarItem id={4} icon={<FaUserCircle />} label="You" path="/feed/you" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 4} />
+            <SidebarItem id={1} icon={<MdHome />} label="Home" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 1} />
+            <SidebarItem id={2} icon={<SiYoutubeshorts />} label="Shorts" path="/shorts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 2} />
+            <SidebarItem id={3} icon={<MdSubscriptions />} label="Subscriptions" path="/subscriptions" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 3} />
+            <SidebarItem id={4} icon={<FaUserCircle />} label="You" path="/feed/you" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 4} />
           </div>
           {!isCollapsed && (
             <>
@@ -58,6 +58,10 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
               <SidebarItem id={22} icon={<MdReport />} label="Report history" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 22} />
               <SidebarItem id={23} icon={<MdHelp />} label="Help" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 23} />
               <SidebarItem id={24} icon={<MdFeedback />} label="Send feedback" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 24} />
+
+              <SectionTitle />
+              <p className="text-[#313131] mx-2 px-4">&copy;2025 Digvijay Pandit • All rights reserved</p>
+              <p className="text-[#313131] mx-2 px-4">This website is a clone created solely for educational purposes and is not affiliated with or endorsed by YouTube.</p>
             </>
           )}
         </nav>
@@ -71,7 +75,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
 const SidebarItem = ({ id, path, icon, label, isCollapsed, active, onClick }) => {
   return (
     <div
-      onClick={() => onClick(id,path)}
+      onClick={() => onClick(id, path)}
       className={`flex items-center px-6 py-4 rounded-lg cursor-pointer ${active && !isCollapsed ? "font-bold bg-[#262626]" : "hover:bg-[#262626]"} ${isCollapsed ? "justify-between flex-col items-center" : "space-x-3"}`}
     >
       <span className="text-2xl">{icon}</span>

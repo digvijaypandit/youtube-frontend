@@ -21,7 +21,7 @@ function UserMenu({ userdata }) {
                 <div className='px-2'>
                     <p className="text-lg font-medium">{userdata.fullName}</p>
                     <p className="text-gray-400 text-sm">@{userdata.username}</p>
-                    <Link to={`${userdata.username}`} className='text-[#147ad3] cursor-pointer'>View your channel</Link>
+                    <Link to={`/channel/${userdata.username}`} className='text-[#147ad3] cursor-pointer'>View your channel</Link>
                 </div>
             </div>
             <hr className='bg-[#505050b0] text-transparent' />
