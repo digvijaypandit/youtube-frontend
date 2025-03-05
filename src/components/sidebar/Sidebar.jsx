@@ -38,7 +38,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
               <SidebarItem id={6} icon={<MdPlaylistPlay />} label="Playlists" path="/user/playlists" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 6} />
               <SidebarItem id={7} icon={<MdOutlineSmartDisplay />} label="Your videos" path="/user/videos" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 7} />
               <SidebarItem id={8} icon={<FaClock />} label="Watch Later" path="/watch-later" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 8} />
-              <SidebarItem id={9} icon={<FaThumbsUp />} label="Liked videos" path="/liked-videos" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 9} />
+              <SidebarItem id={9} icon={<FaThumbsUp />} label="Liked videos" path="/user/liked-videos" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 9} />
 
               <SectionTitle title="Explore" />
               <SidebarItem id={10} icon={<FaFire />} label="Trending" path="/trending" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 10} />
@@ -54,7 +54,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
               <SidebarItem id={20} icon={<FaPodcast />} label="Podcasts" path="/podcasts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 20} />
 
               <SectionTitle title="Settings" />
-              <SidebarItem id={21} icon={<FaCog />} label="Settings" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 21} />
+              <SidebarItem id={21} icon={<FaCog />} label="Settings" path="/user/setting" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 21} />
               <SidebarItem id={22} icon={<MdReport />} label="Report history" path="/report-history" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 22} />
               <SidebarItem id={23} icon={<MdHelp />} label="Help" path="/help" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 23} />
               <SidebarItem id={24} icon={<MdFeedback />} label="Send feedback" path="/send-feedback" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 24} />

@@ -20,6 +20,8 @@ import ChannelCommunityPage from "./pages/ChannelCommunityPage";
 import Subscriptions from "./pages/Subscriptions";
 import YourVideos from "./pages/YourVideos";
 import UaerPlaylists from "./pages/UaerPlaylists";
+import LikedVideos from "./pages/LikedVideos";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {  
   const isOnline = useNetworkStatus();
@@ -39,7 +41,6 @@ function App() {
     );
   }
 
-  // If online, show the main app
   return (
     <ThemeSwitcher>
       <div className="bg-white dark:bg-[#0f0f0f] text-black dark:text-white">
@@ -55,6 +56,8 @@ function App() {
             <Route path="/uploads/video" element={<PrivateRoute><UplaodVideo /></PrivateRoute>} />
             <Route path="/user/videos" element={<PrivateRoute><YourVideos /></PrivateRoute>} />
             <Route path="/user/playlists" element={<PrivateRoute><UaerPlaylists /></PrivateRoute>} />
+            <Route path="/user/playlists" element={<PrivateRoute><UaerPlaylists /></PrivateRoute>} />
+            <Route path="/user/setting" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
             <Route path="/uploads/post" element={<PrivateRoute><UploadPost /></PrivateRoute>} />
             <Route path="/channel/:username" element={<PrivateRoute><ChannelPage /></PrivateRoute>} />
             <Route path="/channel/:username/videos" element={<PrivateRoute><ChannelVideoPage /></PrivateRoute>} />

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format } from "timeago.js";
 import millify from "millify";
+import MenuBox from "./Popup/MenuBox";
 
 const VideoThumbnail = ({ video }) => {
   if (!video) return null;

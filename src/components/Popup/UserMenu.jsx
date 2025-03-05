@@ -34,9 +34,9 @@ function UserMenu({ userdata }) {
                 <Logout />
             </div>
             <div className='py-2 my-2 hover:bg-[#5050507d] cursor-pointer'>
-                <h5 className='px-2 flex items-center'>
+                <Link to="/user/setting" className='px-2 flex items-center'>
                     <span className='px-2'><IoMdSettings className="w-7 h-7" /></span>Settings
-                </h5>
+                </Link>
             </div>
             <hr className='text-transparent bg-[#505050b0]' />
             <div
@@ -69,17 +69,17 @@ function UserMenu({ userdata }) {
                     </li>
                 </ul>
             )}
-            <div className='py-2 my-2 hover:bg-[#5050507d] cursor-pointer'>
+            <div className='py-2 my-2 hover:bg-[#5050507d] cursor-not-allowed'>
                 <h5 className='px-2 flex items-center'>
                     <span className='px-2'><FaRegKeyboard className="w-7 h-7" /></span>Keyboard shortcuts
                 </h5>
             </div>
-            <div className='py-2 my-2 hover:bg-[#5050507d] cursor-pointer'>
+            <div className='py-2 my-2 hover:bg-[#5050507d] cursor-not-allowed'>
                 <h5 className='px-2 flex items-center'>
                     <span className='px-2'><IoMdHelpCircleOutline className="w-7 h-7" /></span>Help
                 </h5>
             </div>
-            <div className='py-2 my-2 hover:bg-[#5050507d] cursor-pointer'>
+            <div className='py-2 my-2 hover:bg-[#5050507d] cursor-not-allowed'>
                 <h5 className='px-2 flex items-center'>
                     <span className='px-2'><LuMessageSquareWarning className="w-7 h-7" /></span>Feedback
                 </h5>
