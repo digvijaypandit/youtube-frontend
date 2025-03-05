@@ -34,30 +34,30 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
           {!isCollapsed && (
             <>
               <SectionTitle title="You" />
-              <SidebarItem id={5} icon={<MdHistory />} label="History" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 5} />
-              <SidebarItem id={6} icon={<MdPlaylistPlay />} label="Playlists" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 6} />
-              <SidebarItem id={7} icon={<MdOutlineSmartDisplay />} label="Your videos" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 7} />
-              <SidebarItem id={8} icon={<FaClock />} label="Watch Later" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 8} />
-              <SidebarItem id={9} icon={<FaThumbsUp />} label="Liked videos" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 9} />
+              <SidebarItem id={5} icon={<MdHistory />} label="History" path="/history" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 5} />
+              <SidebarItem id={6} icon={<MdPlaylistPlay />} label="Playlists" path="/user/playlists" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 6} />
+              <SidebarItem id={7} icon={<MdOutlineSmartDisplay />} label="Your videos" path="/user/videos" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 7} />
+              <SidebarItem id={8} icon={<FaClock />} label="Watch Later" path="/watch-later" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 8} />
+              <SidebarItem id={9} icon={<FaThumbsUp />} label="Liked videos" path="/liked-videos" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 9} />
 
               <SectionTitle title="Explore" />
-              <SidebarItem id={10} icon={<FaFire />} label="Trending" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 10} />
-              <SidebarItem id={11} icon={<FaShoppingBag />} label="Shopping" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 11} />
-              <SidebarItem id={12} icon={<FaMusic />} label="Music" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 12} />
-              <SidebarItem id={13} icon={<FaFilm />} label="Films" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 13} />
-              <SidebarItem id={14} icon={<MdLiveTv />} label="Live" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 14} />
-              <SidebarItem id={15} icon={<FaGamepad />} label="Gaming" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 15} />
-              <SidebarItem id={16} icon={<FaNewspaper />} label="News" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 16} />
-              <SidebarItem id={17} icon={<FaTrophy />} label="Sport" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 17} />
-              <SidebarItem id={18} icon={<FaBook />} label="Courses" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 18} />
-              <SidebarItem id={19} icon={<FaStream />} label="Fashion & beauty" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 19} />
-              <SidebarItem id={20} icon={<FaPodcast />} label="Podcasts" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 20} />
+              <SidebarItem id={10} icon={<FaFire />} label="Trending" path="/trending" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 10} />
+              <SidebarItem id={11} icon={<FaShoppingBag />} label="Shopping" path="/shopping" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 11} />
+              <SidebarItem id={12} icon={<FaMusic />} label="Music" path="/music" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 12} />
+              <SidebarItem id={13} icon={<FaFilm />} label="Films" path="/films" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 13} />
+              <SidebarItem id={14} icon={<MdLiveTv />} label="Live" path="/live" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 14} />
+              <SidebarItem id={15} icon={<FaGamepad />} label="Gaming" path="/gaming" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 15} />
+              <SidebarItem id={16} icon={<FaNewspaper />} label="News" path="/news" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 16} />
+              <SidebarItem id={17} icon={<FaTrophy />} label="Sport" path="/sport" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 17} />
+              <SidebarItem id={18} icon={<FaBook />} label="Courses" path="/courses" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 18} />
+              <SidebarItem id={19} icon={<FaStream />} label="Fashion & beauty" path="/fashion-&-beauty" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 19} />
+              <SidebarItem id={20} icon={<FaPodcast />} label="Podcasts" path="/podcasts" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 20} />
 
               <SectionTitle title="Settings" />
               <SidebarItem id={21} icon={<FaCog />} label="Settings" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 21} />
-              <SidebarItem id={22} icon={<MdReport />} label="Report history" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 22} />
-              <SidebarItem id={23} icon={<MdHelp />} label="Help" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 23} />
-              <SidebarItem id={24} icon={<MdFeedback />} label="Send feedback" path="/" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 24} />
+              <SidebarItem id={22} icon={<MdReport />} label="Report history" path="/report-history" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 22} />
+              <SidebarItem id={23} icon={<MdHelp />} label="Help" path="/help" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 23} />
+              <SidebarItem id={24} icon={<MdFeedback />} label="Send feedback" path="/send-feedback" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 24} />
 
               <SectionTitle />
               <p className="text-[#313131] mx-2 px-4">&copy;2025 Digvijay Pandit • All rights reserved</p>

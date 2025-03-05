@@ -3,7 +3,7 @@ import Header from '../components/header/Header';
 import axios from 'axios';
 import SmallVideoCard from '../components/SmallVideoCard';
 import PlaylistCard from '../components/PlaylistCard';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
     const navigate = useNavigate();
@@ -101,8 +101,8 @@ function Dashboard() {
 
                     {/* Watch History Section */}
                     <div className='ml-3 py-6 flex items-center justify-between'>
-                        <h3 className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>History</h3>
-                        <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
+                        <Link to="/history" className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>History</Link>
+                        <Link to="/history" className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</Link>
                     </div>
                     <div className='flex items-center max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:hidden'>
                         {watchHistory.slice(0, 8).map((video) => (
@@ -118,8 +118,8 @@ function Dashboard() {
                         ))}
                     </div>
                     <div className='ml-3 py-6 flex items-center justify-between'>
-                        <h3 className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>Playlists</h3>
-                        <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
+                        <Link to="/user/playlists" className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>Playlists</Link>
+                        <Link to="/user/playlists" className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</Link>
                     </div>
                     <div className='flex items-center overflow-x-auto [&::-webkit-scrollbar]:hidden'>
                         {playlist.slice(0, 8).map((item) => (
@@ -134,32 +134,14 @@ function Dashboard() {
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
                     <div className='flex items-center overflow-x-auto'>
-                        {watchHistory.slice(0, 8).map((video) => (
-                            <SmallVideoCard
-                                key={video._id}
-                                video={video}
-                                clas={"flex-col w-[600px] gap-0"}
-                                imgWidth={""}
-                                textWidth={""}
-                                channel={{ data: video.owner }}
-                            />
-                        ))}
+                        <h4>No video Found!</h4>
                     </div>
                     <div className='ml-3 py-6 flex items-center justify-between'>
                         <h3 className='text-xl font-bold cursor-pointer text-[#f2f2f2]'>Liked videos</h3>
                         <button className='px-4 py-2 border-[1px] border-[#f2f2f241] rounded-full cursor-pointer hover:bg-[#f2f2f241]'>View all</button>
                     </div>
                     <div className='flex items-center overflow-x-auto'>
-                        {watchHistory.slice(0, 8).map((video) => (
-                            <SmallVideoCard
-                                key={video._id}
-                                video={video}
-                                clas={"flex-col w-[600px] gap-0"}
-                                imgWidth={""}
-                                textWidth={""}
-                                channel={{ data: video.owner }}
-                            />
-                        ))}
+                        <h4>No video Found!</h4>
                     </div>
                 </div>
             </div>

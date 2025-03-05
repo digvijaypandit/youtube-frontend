@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Plyr from "plyr";
 import "plyr/dist/plyr.css";
-import "./VideoPlayer.css";  
+import "./VideoPlayer.css";
 
 const VideoPlayer = ({ videoSrc }) => {
   const videoRef = useRef(null);
@@ -40,17 +40,22 @@ const VideoPlayer = ({ videoSrc }) => {
 
   useEffect(() => {
     if (videoRef.current) {
-      // Define sources in a format Plyr can recognize
+      // Destroy previous Plyr instance if it exists
+      if (player) {
+        player.destroy();
+      }
+
+      // Define sources for Plyr
       const sources = {
         type: "video",
         sources: videoSources.map((source) => ({
           src: source.src,
           type: "video/mp4",
-          size: source.quality === "auto" ? 720 : source.quality,  // Use 720 for auto as default
+          size: source.quality === "auto" ? 720 : source.quality,
         })),
       };
 
-      // Initialize Plyr with multiple sources
+      // Initialize Plyr
       const plyr = new Plyr(videoRef.current, {
         controls: [
           "play-large",
@@ -75,20 +80,27 @@ const VideoPlayer = ({ videoSrc }) => {
         },
       });
 
+      // Assign new source to Plyr
       plyr.source = sources;
-
       setPlayer(plyr);
 
       return () => {
-        plyr.destroy();
+        plyr.destroy(); // Cleanup on unmount
       };
     }
-  }, [videoSrc]);  
+  }, [videoSrc]); // Re-run when videoSrc changes
 
   if (videoSources.length === 0) return <p>Video not found</p>;
+
   return (
-    <div className="m-6 bg-[#0f0f0f]">
-      <video ref={videoRef} controls width="720" height="360">
+    <div key={videoSrc} className="m-6 bg-[#0f0f0f]"> {/* Key prop on wrapper instead */}
+      <video
+        ref={videoRef}
+        controls
+        width="720"
+        height="360"
+        className="plyr-react plyr"
+      >
         <source src={videoSrc} type="video/mp4" />
         Your browser does not support the video tag.
       </video>

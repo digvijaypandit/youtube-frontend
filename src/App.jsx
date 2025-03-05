@@ -18,6 +18,8 @@ import ChannelVideoPage from "./pages/ChannelVideoPage";
 import ChannelPlaylistPage from "./pages/ChannelPlaylistPage";
 import ChannelCommunityPage from "./pages/ChannelCommunityPage";
 import Subscriptions from "./pages/Subscriptions";
+import YourVideos from "./pages/YourVideos";
+import UaerPlaylists from "./pages/UaerPlaylists";
 
 function App() {  
   const isOnline = useNetworkStatus();
@@ -51,12 +53,28 @@ function App() {
             <Route path="/feed/you" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path="/playlist/:playlistId" element={<PrivateRoute><PlaylistPage /></PrivateRoute>} />
             <Route path="/uploads/video" element={<PrivateRoute><UplaodVideo /></PrivateRoute>} />
+            <Route path="/user/videos" element={<PrivateRoute><YourVideos /></PrivateRoute>} />
+            <Route path="/user/playlists" element={<PrivateRoute><UaerPlaylists /></PrivateRoute>} />
             <Route path="/uploads/post" element={<PrivateRoute><UploadPost /></PrivateRoute>} />
             <Route path="/channel/:username" element={<PrivateRoute><ChannelPage /></PrivateRoute>} />
             <Route path="/channel/:username/videos" element={<PrivateRoute><ChannelVideoPage /></PrivateRoute>} />
             <Route path="/channel/:username/playlists" element={<PrivateRoute><ChannelPlaylistPage /></PrivateRoute>} />
             <Route path="/channel/:username/community" element={<PrivateRoute><ChannelCommunityPage /></PrivateRoute>} />
             <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/trending" element={<Shorts />} />
+            <Route path="/shopping" element={<Shorts />} />
+            <Route path="/music" element={<Shorts />} />
+            <Route path="/films" element={<Shorts />} />
+            <Route path="/live" element={<Shorts />} />
+            <Route path="/gaming" element={<Shorts />} />
+            <Route path="/news" element={<Shorts />} />
+            <Route path="/sport" element={<Shorts />} />
+            <Route path="/courses" element={<Shorts />} />
+            <Route path="/fashion-&-beauty" element={<Shorts />} />
+            <Route path="/podcasts" element={<Shorts />} />
+            <Route path="/report-history" element={<Shorts />} />
+            <Route path="/help" element={<Shorts />} />
+            <Route path="/send-feedback" element={<Shorts />} />
           </Routes>
         </Router>
       </div>
