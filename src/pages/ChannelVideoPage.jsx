@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 import SmallVideoCard from '../components/SmallVideoCard';
-import Header from '../components/header/Header'
+import Header from '../components/header/Header';
+import millify from 'millify';
 
 const ChannelVideoPage = () => {
     const { username } = useParams();
@@ -134,7 +135,7 @@ const ChannelVideoPage = () => {
                                     <h1 className="text-3xl font-bold">{fullName}</h1>
                                     <p className="text-lg">@{channelData.username}</p>
                                     <p className="text-gray-400">
-                                        {subscribersCount?.toLocaleString() || 0} subscribers • Subscribed to {channelsSubscribedToCount || 0} channels
+                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers • {sameUser && (<h6>Subscribed {channelsSubscribedToCount || 0}</h6>)}
                                     </p>
                                 </div>
                             </div>
@@ -152,8 +153,8 @@ const ChannelVideoPage = () => {
                     </div>
 
                     {/* Navigation Tabs */}
-                    <div className="mt-8 border-b p-2 sticky top-18 z-30 bg-[#0f0f0f] border-gray-700">
-                        <ul className="flex justify-center space-x-8 text-gray-400 font-medium">
+                    <div className="mt-8 border-b p-2 sticky top-18 z-30 bg-[#0f0f0f] border-[#404040]">
+                        <ul className="flex justify-start mx-10 space-x-8 text-gray-400 font-medium">
                             <NavLink
                                 to={`/channel/${channelData.username}`}
                                 className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
@@ -167,13 +168,13 @@ const ChannelVideoPage = () => {
                                 Videos
                             </NavLink>
                             <NavLink
-                                to={`/channel/${channelData.username}/playlists`}
+                                to={`/channel/${channelData.username}/community`}
                                 className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
                             >
                                 Posts
                             </NavLink>
                             <NavLink
-                                to={`/channel/${channelData.username}/community`}
+                                to={`/channel/${channelData.username}/playlists`}
                                 className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
                             >
                                 Playlists

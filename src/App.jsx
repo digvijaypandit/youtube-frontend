@@ -15,6 +15,8 @@ import Shorts from "./pages/Shorts";
 import useNetworkStatus from "./feature/useNetworkStatus";
 import ChannelPage from "./pages/ChannelPage";
 import ChannelVideoPage from "./pages/ChannelVideoPage";
+import ChannelPlaylistPage from "./pages/ChannelPlaylistPage";
+import ChannelCommunityPage from "./pages/ChannelCommunityPage";
 
 function App() {  
   const isOnline = useNetworkStatus();
@@ -51,8 +53,8 @@ function App() {
             <Route path="/uploads/post" element={<PrivateRoute><UploadPost /></PrivateRoute>} />
             <Route path="/channel/:username" element={<PrivateRoute><ChannelPage /></PrivateRoute>} />
             <Route path="/channel/:username/videos" element={<PrivateRoute><ChannelVideoPage /></PrivateRoute>} />
-            <Route path="/channel/:username/playlists" element={<PrivateRoute><ChannelPage /></PrivateRoute>} />
-            <Route path="/channel/:username/community" element={<PrivateRoute><ChannelPage /></PrivateRoute>} />
+            <Route path="/channel/:username/playlists" element={<PrivateRoute><ChannelPlaylistPage /></PrivateRoute>} />
+            <Route path="/channel/:username/community" element={<PrivateRoute><ChannelCommunityPage /></PrivateRoute>} />
           </Routes>
         </Router>
       </div>

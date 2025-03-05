@@ -3,6 +3,8 @@ import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 import SmallVideoCard from '../components/SmallVideoCard';
 import Header from '../components/header/Header'
+import PlaylistCard from '../components/PlaylistCard';
+import millify from "millify";
 
 const ChannelPage = () => {
     const { username } = useParams();
@@ -11,6 +13,7 @@ const ChannelPage = () => {
     const [sameUser, setSameUser] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [userVideos, setUserVideos] = useState([]);
+    const [playlist, setPlaylist] = useState([]);
     const [videosLoading, setVideosLoading] = useState(true);
 
     const user = JSON.parse(localStorage.getItem('user'));
@@ -53,6 +56,15 @@ const ChannelPage = () => {
                 });
 
                 setUserVideos(userVideosRes.data.data);
+
+                const Playlists = await axios.get(
+                    `http://localhost:8000/api/v1/playlist/user/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    },
+                }
+                );
+                setPlaylist(Playlists.data.data);
 
             } catch (error) {
                 console.error('Error fetching channel data:', error.response?.data || error);
@@ -141,7 +153,7 @@ const ChannelPage = () => {
                                     <h1 className="text-3xl font-bold">{fullName}</h1>
                                     <p className="text-lg">@{channelData.username}</p>
                                     <p className="text-gray-400">
-                                        {subscribersCount?.toLocaleString() || 0} subscribers • Subscribed to {channelsSubscribedToCount || 0} channels
+                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers • {sameUser && (<h6>Subscribed to{channelsSubscribedToCount || 0} channels</h6>)}
                                     </p>
                                 </div>
                             </div>
@@ -159,8 +171,8 @@ const ChannelPage = () => {
                     </div>
 
                     {/* Navigation Tabs */}
-                    <div className="mt-8 p-2 border-b border-gray-700">
-                        <ul className="flex justify-center space-x-8 text-gray-400 font-medium">
+                    <div className="mt-8 p-2 border-b sticky top-18 z-30 bg-[#0f0f0f] border-[#404040]">
+                        <ul className="flex justify-start mx-10 space-x-8 text-gray-400 font-medium">
                             <NavLink
                                 to={`/channel/${channelData.username}`}
                                 className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
@@ -174,13 +186,13 @@ const ChannelPage = () => {
                                 Videos
                             </NavLink>
                             <NavLink
-                                to={`/channel/${channelData.username}/playlists`}
+                                to={`/channel/${channelData.username}/community`}
                                 className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
                             >
                                 Posts
                             </NavLink>
                             <NavLink
-                                to={`/channel/${channelData.username}/community`}
+                                to={`/channel/${channelData.username}/playlists`}
                                 className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
                             >
                                 Playlists
@@ -188,21 +200,21 @@ const ChannelPage = () => {
                         </ul>
                     </div>
 
-                    <div className="p-6 text-center">
+                    <h2 className="text-2xl font-bold mx-10 mt-4">Recently Uploaded Video</h2>
+                    <div className="text-cente mt-0">
                         {videosLoading ? (
                             <p className="text-gray-500">Loading videos...</p>
                         ) : userVideos.length > 0 ? (
                             <div className="max-w-screen-lg mx-auto">
-                                <h2 className="text-2xl font-bold">Recently Uploaded Video</h2>
                                 <div className='flex items-center max-h-screen p-2 m-2 max-w-screen overflow-y-auto [&::-webkit-scrollbar]:hidden'>
                                     {userVideos.slice(0, 8).map((video) => (
                                         <SmallVideoCard
                                             key={video._id}
                                             video={video}
-                                            mainDiv={"w-[400px] m-1 rounded-md flex flex-col shadow-lg relative cursor-pointer"}
+                                            mainDiv={"w-[300px] m-1 rounded-md flex flex-col shadow-lg relative cursor-pointer"}
                                             imgDiv={"relative "}
-                                            imgelem={"w-[380px] h-[140px] rounded-md flex flex-col shadow-lg relative cursor-pointer"}
-                                            textelem={"w-[250px] p-2"}
+                                            imgelem={"w-[300px] h-[140px] rounded-md flex flex-col justify-start shadow-lg relative cursor-pointer"}
+                                            textelem={"w-[300px] p-2"}
                                             channel={{ data: video.owner }}
                                         />
                                     ))}
@@ -212,6 +224,23 @@ const ChannelPage = () => {
                             <p className="text-gray-500">No videos uploaded yet.</p>
                         )}
                     </div>
+                    <hr className='text-[#404040]'/>
+                    <h2 className="text-2xl mt-4 font-bold mx-10">Playlists</h2>
+                    <div className="p-6 text-center flex overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                        {videosLoading ? (
+                            <p className="text-gray-500">Loading videos...</p>
+                        ) : (
+                            playlist.map((item) => (
+                                <div className='flex items-center overflow-x-hidden p-2 m-0'>
+                                    <PlaylistCard
+                                        key={item._id}
+                                        playlist={item}
+                                    />
+                                </div>
+                            ))
+                        )}
+                    </div>
+                    <hr className='text-[#404040]'/>
                 </div>
             </div>
         </>
