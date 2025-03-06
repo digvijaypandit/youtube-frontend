@@ -55,15 +55,17 @@ const LikedVideos = () => {
             <Header />
             <div className='p-16 max-w-screen'>
                 <div className="min-h-screen bg-[#0f0f0f] text-white p-5 flex">
-                    <div className="fixed bg-gradient-to-b from-[#252424] to-[#101010]">
+                    <div className="fixed bg-gradient-to-b rounded-xl from-[#25242400] to-[#101010]">
                         <div
                             style={{
                                 backgroundImage: `url(${likedVideos[0]?.thumbnail})`,
                                 backgroundPosition: 'center',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundSize: 'cover',
                             }}
-                            className="relative max-w-sm h-screen rounded-xl shadow-lg text-white p-4 overflow-hidden"
+                            className="relative max-w-sm h-[80vh] rounded-xl shadow-lg text-white p-4 overflow-hidden"
                         >
-                            <div className="absolute inset-0 backdrop-blur-2xl bg-black/30 z-0"></div>
+                            <div className="absolute inset-0 backdrop-blur-xl bg-gradient-to-b from-black/10 to-black/100 z-0"></div>
                             <div className="relative z-10 cursor-pointer">
                                 <img
                                     className="rounded-lg"
@@ -72,8 +74,8 @@ const LikedVideos = () => {
                                 />
                             </div>
 
-                            <div className="relative z-10 mt-4">
-                                <h2 className="text-xl font-semibold">Liked videos</h2>
+                            <div className="relative z-10 py-4 mt-4">
+                                <h2 className="text-3xl font-semibold">Liked videos</h2>
                                 <div className="flex items-center mt-1 text-sm text-white">
                                     <div className="flex items-center">
                                         <img src={user.avatar} className="rounded-full w-8 h-8 mr-2" />
@@ -82,48 +84,6 @@ const LikedVideos = () => {
                                 </div>
                                 <div className="text-sm text-[#ababab] mt-2">
                                     {likedVideos.length} videos • No views • Updated {format(likedVideos[0].updatedAt)}
-                                </div>
-                            </div>
-
-                            <div className="relative z-10 flex justify-between mt-4">
-                                <div>
-                                    <button className="flex items-center cursor-pointer bg-white text-gray-800 rounded-full py-1 px-4 font-semibold">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={2}
-                                            stroke="currentColor"
-                                            className="w-5 h-5 mr-2"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M5.25 5.25v13.5l11.25-6.75L5.25 5.25z"
-                                            />
-                                        </svg>
-                                        Play all
-                                    </button>
-                                </div>
-                                <div className="flex gap-2 text-white">
-                                    <div>
-                                        <button
-                                            onClick={() => setIsShare((prev) => !prev)}
-                                            className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700"
-                                        >
-                                            <TbShare3 />
-                                        </button>
-                                        {isShare && (
-                                            <div className="scale-z-50 relative -top-80 -left-70 shadow-lg p-4 rounded-md">
-                                                <ShareComponent />
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
-                                            <BsThreeDotsVertical />
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>

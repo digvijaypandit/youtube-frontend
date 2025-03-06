@@ -7,6 +7,7 @@ import { FaPlus, FaPen } from "react-icons/fa6";
 import { TbShare3 } from "react-icons/tb";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ShareComponent from "../components/ShareComponent";
+import { format } from "timeago.js"
 
 const PlaylistPage = () => {
   const { playlistId } = useParams();
@@ -48,15 +49,17 @@ const PlaylistPage = () => {
       <div className="p-16 max-w-screen">
         <div className="min-h-screen bg-[#0f0f0f] text-white p-5 flex">
           {/* Sidebar */}
-          <div className="fixed bg-gradient-to-b from-[#252424] to-[#101010]">
+          <div className="fixed">
             <div
               style={{
-                backgroundImage: `url(${playlist?.video[0]?.thumbnail || ""})`,
-                backgroundPosition: "center",
+                backgroundImage: `url(${playlist.video[0]?.thumbnail})`,
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
               }}
-              className="relative max-w-sm h-screen rounded-xl shadow-lg text-white p-4 overflow-hidden"
+              className="relative max-w-sm h-[80vh] rounded-xl shadow-lg text-white p-4 overflow-hidden"
             >
-              <div className="absolute inset-0 backdrop-blur-2xl bg-black/30 z-0"></div>
+              <div className="absolute inset-0 backdrop-blur-xl bg-gradient-to-b from-black/10 to-black/100 z-0"></div>
               <div className="relative z-10 cursor-pointer">
                 <img
                   className="rounded-lg"
@@ -78,7 +81,7 @@ const PlaylistPage = () => {
                   </div>
                 </div>
                 <div className="text-sm text-[#ababab] mt-2">
-                  {playlist?.video?.length || 0} videos • Public
+                  {playlist?.video?.length || 0} videos • Public • {format(playlist.updatedAt)}
                 </div>
               </div>
 

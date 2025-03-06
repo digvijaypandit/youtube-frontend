@@ -22,6 +22,8 @@ import YourVideos from "./pages/YourVideos";
 import UaerPlaylists from "./pages/UaerPlaylists";
 import LikedVideos from "./pages/LikedVideos";
 import SettingsPage from "./pages/SettingsPage";
+import History from "./pages/History";
+import EditVideo from "./pages/EditVideo";
 
 function App() {  
   const isOnline = useNetworkStatus();
@@ -54,9 +56,12 @@ function App() {
             <Route path="/feed/you" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path="/playlist/:playlistId" element={<PrivateRoute><PlaylistPage /></PrivateRoute>} />
             <Route path="/uploads/video" element={<PrivateRoute><UplaodVideo /></PrivateRoute>} />
+            <Route path="/edits/video/:videoId" element={<PrivateRoute><EditVideo /></PrivateRoute>} />
+            <Route path="/edits/post/:postId" element={<PrivateRoute><EditVideo /></PrivateRoute>} />
             <Route path="/user/videos" element={<PrivateRoute><YourVideos /></PrivateRoute>} />
             <Route path="/user/playlists" element={<PrivateRoute><UaerPlaylists /></PrivateRoute>} />
-            <Route path="/user/playlists" element={<PrivateRoute><UaerPlaylists /></PrivateRoute>} />
+            <Route path="/user/liked-videos" element={<PrivateRoute><LikedVideos /></PrivateRoute>} />
+            <Route path="/history" element={<PrivateRoute><History /></PrivateRoute>} />
             <Route path="/user/setting" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
             <Route path="/uploads/post" element={<PrivateRoute><UploadPost /></PrivateRoute>} />
             <Route path="/channel/:username" element={<PrivateRoute><ChannelPage /></PrivateRoute>} />
@@ -64,6 +69,7 @@ function App() {
             <Route path="/channel/:username/playlists" element={<PrivateRoute><ChannelPlaylistPage /></PrivateRoute>} />
             <Route path="/channel/:username/community" element={<PrivateRoute><ChannelCommunityPage /></PrivateRoute>} />
             <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/watch-later" element={<Shorts />} />
             <Route path="/trending" element={<Shorts />} />
             <Route path="/shopping" element={<Shorts />} />
             <Route path="/music" element={<Shorts />} />

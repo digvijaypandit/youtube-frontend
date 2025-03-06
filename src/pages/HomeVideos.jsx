@@ -63,7 +63,7 @@ const VideoList = () => {
       {Array.isArray(videos) && videos.length > 0 ? (
         videos.map((video) => (
           <div key={video._id} className="w-full sm:w-[48%] md:w-[48%] lg:w-[32%] xl:w-[32%] 2xl:w-[15%] p-2">
-            <VideoThumbnail video={video} />
+            <VideoThumbnail video={video} key={video._id}/>
           </div>
         ))
       ) : (

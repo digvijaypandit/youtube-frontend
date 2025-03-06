@@ -1,12 +1,14 @@
 import React from 'react';
 import { format } from "timeago.js";
+import { useNavigate } from "react-router-dom";
 import millify from "millify";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoReorderTwoOutline } from "react-icons/io5";
 
 const PlaylistVideoCard = ({video,onwer}) => {
+  const navigate = useNavigate();
   return (
-    <div className="bg-[#0f0f0f] cursor-pointer flex min-w-[780px] max-w-[780px] text-[#f2f2f2] hover:bg-[#262626] rounded-lg shadow-lg">
+    <div  onClick={() => navigate(`/watch/${video._id}`)} className="bg-[#0f0f0f] cursor-pointer flex min-w-[780px] max-w-[780px] text-[#f2f2f2] hover:bg-[#262626] rounded-lg shadow-lg">
       <div className='pl-2 relative cursor-grab active:cursor-grabbing top-[35%] '><IoReorderTwoOutline size={30}/></div>
       <div className="relative w-[30%] m-1">
         <img
@@ -24,7 +26,7 @@ const PlaylistVideoCard = ({video,onwer}) => {
         <h3 className="text-base font-semibold">
         {video.title}
         </h3>
-        <p className="text-xs pt-2 text-[#ababab]"><span className='hover:text-[#f2f2f2] cursor-pointer'>{onwer.username}</span> • {millify(video.views)} views • {format(video.createdAt)}</p>
+        <p className="text-xs pt-2 text-[#ababab]"><span className='hover:text-[#f2f2f2] cursor-pointer'>{onwer.username}</span> • {millify(video.views)} views • {format((video?.createdAt || video?.updatedAt ))}</p>
       </div>
       <div className='relative top-14 right-4 cursor-pointer'><BsThreeDotsVertical /></div>
     </div>

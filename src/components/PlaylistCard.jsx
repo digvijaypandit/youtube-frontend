@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PlaylistCard = (item) => {
     const navigate = useNavigate();
@@ -53,8 +53,8 @@ const PlaylistCard = (item) => {
                 <p className="text-sm text-[#ababab]">{item.playlist.onwer?.username} • Playlist</p>
                 <span
                     onClick={(e) => {
-                        e.stopPropagation();  // Prevent navigation to /watch/:videoId
-                        navigate(`/playlist/${item.playlist._id}`);  // Navigate to /playlist/:playlistId
+                        e.stopPropagation();
+                        navigate(`/playlist/${item.playlist._id}`);
                     }}
                     className="mt-1 text-sm hover:text-[#f2f2f2] text-[#ababab] cursor-pointer"
                 >
