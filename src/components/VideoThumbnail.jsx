@@ -1,17 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format } from "timeago.js";
 import millify from "millify";
 import MenuBox from "./Popup/MenuBox";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
-const VideoThumbnail = ({ video }) => {
+const VideoThumbnail = ({ video, menuData }) => {
   if (!video) return null;
   const navigate = useNavigate();
-
+  const MenuRef = useRef(null);
   const { _id, title, thumbnail, views, createdAt, duration, owner } = video;
-
+  const [isShowMenu, setIsShowMenu] = useState(false);
   const [user, setUser] = useState({ username: "", avatar: "" });
+
+  const toggleMenu = (e) => {
+    e.stopPropagation(); // Prevents navigation when clicking menu button
+    setIsShowMenu((prev) => !prev);
+    console.log("menu toggle:", isShowMenu);
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (MenuRef.current && !MenuRef.current.contains(event.target)) {
+        setIsShowMenu(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     if (!owner) return;
 
@@ -45,7 +66,10 @@ const VideoThumbnail = ({ video }) => {
   }, [owner]);
 
   return (
-    <div onClick={() => navigate(`/watch/${_id}`)} className="w-88 m-4 mb-20 bg-white dark:bg-[#0f0f0f] text-black dark:text-white rounded-lg shadow-lg">
+    <div
+      onClick={() => navigate(`/watch/${_id}`)}
+      className="w-88 m-4 mb-20 bg-white dark:bg-[#0f0f0f] text-black dark:text-white rounded-lg shadow-lg relative"
+    >
       <div className="relative">
         <img
           className="w-full h-48 object-cover rounded-xl cursor-pointer"
@@ -72,23 +96,38 @@ const VideoThumbnail = ({ video }) => {
             </div>
           )}
         </div>
-
+        <div
+          ref={MenuRef}
+          className="absolute top-8 right-2 p-2 z-50 rounded-2xl cursor-pointer hover:bg-gray-600"
+          onClick={toggleMenu}
+        ><BsThreeDotsVertical /></div>
+          {isShowMenu && (
+            <div className="absolute -top-30 right-2 z-50">
+              <MenuBox menuData={menuData} />
+            </div>
+          )}
         <div className="max-h-30 overflow-hidden absolute left-12">
           <h3 className="text-md font-semibold cursor-pointer">
-            {title.slice(0,60) || "Untitled Video"}{title.length > 60 ? "..." : ""}
+            {title.slice(0, 60) || "Untitled Video"}
+            {title.length > 60 ? "..." : ""}
           </h3>
-          <p  onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/channel/${user.username}`);
-                    }} className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold">
+          <p
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/channel/${user.username}`);
+            }}
+            className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold"
+          >
             {user.username || "Unknown User"}
           </p>
           <p className="text-sm text-gray-400 cursor-pointer">
-          {millify(views || 0)} views • {createdAt ? format(createdAt) : "Unknown Date"}
+            {millify(views || 0)} views •{" "}
+            {createdAt ? format(createdAt) : "Unknown Date"}
           </p>
         </div>
       </div>
     </div>
   );
 };
+
 export default VideoThumbnail;

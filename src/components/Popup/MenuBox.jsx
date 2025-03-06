@@ -1,26 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react';
 
-function MenuBox({ meunData }) {
-  console.log("MenuBox")
-  const [List, setLest] = useState([]);
-
-  if(meunData){
-    console.log(List);
-    setLest(meunData)
-  }
+function MenuBox({ menuData }) {
   return (
     <div>
-      <div className='flex bg-[#262626] rounded-lg absolute top-12 right-25'>
-        <ul className='space-y-2'>
-          {List?.map((List) => (
-            <li to={"/uploads/video"} className='hover:bg-[#3d3d3d] py-2 my-2 flex items-center'>
-              {List.items}{console.log("print")}
-            </li>
-          ))}
-        </ul>
+      <div className='flex bg-[#262626] rounded-lg p-4'>
+        {menuData && menuData.length > 0 ? (
+          <ul className="text-white space-y-2">
+            {menuData.map((item, index) => (
+              <li key={index} className="hover:bg-[#3d3d3d] cursor-pointer py-2 my-2 flex items-center">
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-white">No menu items available</p>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-export default MenuBox
+export default MenuBox;
