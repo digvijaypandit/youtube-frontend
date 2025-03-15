@@ -33,7 +33,6 @@ const ChannelCommunityPage = () => {
 
                 if (response.data.success) {
                     setChannelData(response.data.data);
-                    console.log("Channel data loaded:", response.data.data);
                 }
 
                 const channelId = response.data.data._id;
@@ -105,17 +104,40 @@ const ChannelCommunityPage = () => {
                                     <h1 className="text-3xl font-bold">{fullName}</h1>
                                     <p className="text-lg">@{channelData.username}</p>
                                     <p className="text-gray-400">
-                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers • {sameUser && (<h6>Subscribed {channelsSubscribedToCount || 0}</h6>)}
+                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers •
                                     </p>
+                                    {sameUser && <h6 className="text-gray-400">Subscribed {channelsSubscribedToCount || 0}</h6>}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="mt-8 border-b p-2 sticky top-18 z-30 bg-[#0f0f0f] border-[#404040]">
+                    <div className="mt-8 p-2 border-b sticky top-18 z-30 bg-[#0f0f0f] border-[#404040]">
                         <ul className="flex justify-start mx-10 space-x-8 text-gray-400 font-medium">
-                            <NavLink to={`/channel/${channelData.username}`} className="hover:text-white cursor-pointer">Home</NavLink>
-                            <NavLink to={`/channel/${channelData.username}/tweets`} className="hover:text-white cursor-pointer">Tweets</NavLink>
+                            <NavLink
+                                to={`/channel/${channelData.username}`}
+                                className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
+                            >
+                                Home
+                            </NavLink>
+                            <NavLink
+                                to={`/channel/${channelData.username}/videos`}
+                                className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
+                            >
+                                Videos
+                            </NavLink>
+                            <NavLink
+                                to={`/channel/${channelData.username}/community`}
+                                className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
+                            >
+                                Posts
+                            </NavLink>
+                            <NavLink
+                                to={`/channel/${channelData.username}/playlists`}
+                                className={({ isActive }) => isActive ? 'text-white cursor-pointer' : 'hover:text-white cursor-pointer'}
+                            >
+                                Playlists
+                            </NavLink>
                         </ul>
                     </div>
 
@@ -125,14 +147,22 @@ const ChannelCommunityPage = () => {
                         ) : userTweets.length > 0 ? (
                             <div className='flex flex-wrap items-center overflow-y-auto p-2 m-8 max-w-screen'>
                                 {userTweets.map((tweet) => (
-                                    <div key={tweet._id} className="w-[300px] m-4 p-4 rounded-xl bg-[#1f1f1f] shadow-lg">
+                                    <div key={tweet._id} className="w-[300px] m-4 p-4 rounded-xl bg-[#1f1f1f] shadow-lg relative">
                                         <p className="text-white">{tweet.content}</p>
                                         <div className="text-gray-400 text-sm mt-2">
                                             <span>@{tweet.user.username}</span> • <span>{new Date(tweet.createdAt).toLocaleDateString()}</span>
+                                            {sameUser && (
+                                                <NavLink to={`/edits/post/${tweet._id}`} className="absolute right-0 top-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M17.414 2.586a2 2 0 010 2.828l-1.828 1.828-2.828-2.828 1.828-1.828a2 2 0 012.828 0zM11.172 6l-8.293 8.293A1 1 0 002 15v3h3a1 1 0 00.707-.293L14 8.828l-2.828-2.828z" />
+                                                    </svg>
+                                                </NavLink>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
                             </div>
+
                         ) : (
                             <p className="text-gray-500">No tweets available yet.</p>
                         )}

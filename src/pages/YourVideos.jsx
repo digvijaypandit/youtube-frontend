@@ -7,7 +7,6 @@ const YourVideos = () => {
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const menuData = ['play','share','edit']
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user._id;
 
@@ -52,7 +51,7 @@ const YourVideos = () => {
                 <div className="flex flex-wrap gap-4 p-5  bg-white dark:bg-[#0f0f0f] text-black dark:text-white">
                     {videos.map((video) => (
                         <div className='w-full sm:w-[48%] md:w-[48%] lg:w-[32%] xl:w-[32%] 2xl:w-[15%] p-2'>
-                            <VideoThumbnail key={video._id} video={video} menuData={menuData}/>
+                            <VideoThumbnail key={video._id} video={video} menuData={["Edit", "share"]}/>
                         </div>
                     ))}
                 </div>

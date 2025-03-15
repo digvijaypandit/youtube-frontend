@@ -3,43 +3,29 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format } from "timeago.js";
 import millify from "millify";
-import MenuBox from "./Popup/MenuBox";
+import ShareComponent from "../components/ShareComponent";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { TbShare3 } from "react-icons/tb";
+import MenuBox from "./Popup/MenuBox";
 
 const VideoThumbnail = ({ video, menuData }) => {
   if (!video) return null;
+
   const navigate = useNavigate();
   const MenuRef = useRef(null);
   const { _id, title, thumbnail, views, createdAt, duration, owner } = video;
+
   const [isShowMenu, setIsShowMenu] = useState(false);
-  const [user, setUser] = useState({ username: "", avatar: "" });
+  const [user, setUser] = useState({ username: "Unknown User", avatar: "/default-avatar.jpg" });
+  const [isShare, setIsShare] = useState(false);
 
-  const toggleMenu = (e) => {
-    e.stopPropagation(); // Prevents navigation when clicking menu button
-    setIsShowMenu((prev) => !prev);
-    console.log("menu toggle:", isShowMenu);
-  };
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (MenuRef.current && !MenuRef.current.contains(event.target)) {
-        setIsShowMenu(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
+  // Fetch User Details
   useEffect(() => {
     if (!owner) return;
 
     const fetchUserDetails = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-
         if (!token) {
           console.error("No access token found");
           return;
@@ -53,9 +39,10 @@ const VideoThumbnail = ({ video, menuData }) => {
             },
           }
         );
+
         setUser({
-          username: response.data.data.username,
-          avatar: response.data.data.avatar,
+          username: response.data.data.username || "Unknown User",
+          avatar: response.data.data.avatar || "/default-avatar.jpg",
         });
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -65,49 +52,69 @@ const VideoThumbnail = ({ video, menuData }) => {
     fetchUserDetails();
   }, [owner]);
 
+  // Function to toggle menu visibility
+  const toggleMenu = (e) => {
+    e.stopPropagation(); // Prevent click from propagating to parent elements
+    setIsShowMenu((prev) => !prev);
+  };
+
   return (
     <div
       onClick={() => navigate(`/watch/${_id}`)}
-      className="w-88 m-4 mb-20 bg-white dark:bg-[#0f0f0f] text-black dark:text-white rounded-lg shadow-lg relative"
+      className="w-88 m-4 mb-20 bg-white dark:bg-[#0f0f0f] text-black dark:text-white rounded-lg shadow-lg relative cursor-pointer"
     >
+      {/* Thumbnail */}
       <div className="relative">
         <img
-          className="w-full h-48 object-cover rounded-xl cursor-pointer"
-          src={thumbnail}
+          className="w-full h-48 object-cover rounded-xl"
+          src={thumbnail || "/default-thumbnail.jpg"}
           alt="Thumbnail"
         />
-        <span className="absolute bottom-2 right-2 cursor-pointer bg-[#0000008a] bg-opacity-80 text-white h-5 text-sm px-1 rounded">
-          {Math.floor((duration || 0) / 60)}:
-          {Math.floor((duration || 0) % 60).toString().padStart(2, "0")}
-        </span>
+        {duration && (
+          <span className="absolute bottom-2 right-2 bg-[#0000008a] bg-opacity-80 text-white h-5 text-sm px-1 rounded">
+            {Math.floor(duration / 60)}:
+            {Math.floor(duration % 60).toString().padStart(2, "0")}
+          </span>
+        )}
       </div>
 
+      {/* Video Info */}
       <div className="flex p-3 relative">
+        {/* User Avatar */}
         <div className="mr-3 h-10 w-10 absolute top-5 left-0">
-          {user.avatar ? (
-            <img
-              className="w-10 h-10 rounded-full cursor-pointer"
-              src={user.avatar}
-              alt="User Avatar"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-full cursor-pointer bg-gray-600 flex items-center justify-center">
-              <span className="text-gray-300">?</span>
-            </div>
-          )}
+          <img
+            className="w-10 h-10 rounded-full"
+            src={user.avatar}
+            alt="User Avatar"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/channel/${user.username}`);
+            }}
+          />
         </div>
+
+        {/* Menu Button */}
         <div
           ref={MenuRef}
           className="absolute top-8 right-2 p-2 z-50 rounded-2xl cursor-pointer hover:bg-gray-600"
           onClick={toggleMenu}
-        ><BsThreeDotsVertical /></div>
-          {isShowMenu && (
-            <div className="absolute -top-30 right-2 z-50">
-              <MenuBox menuData={menuData} />
-            </div>
-          )}
-        <div className="max-h-30 overflow-hidden absolute left-12">
-          <h3 className="text-md font-semibold cursor-pointer">
+        >
+          <BsThreeDotsVertical />
+        </div>
+
+        {/* Dropdown Menu */}
+        {isShowMenu && <MenuBox menuData={menuData} videoId={_id} />}
+
+        {/* Share Component */}
+        {isShare && (
+          <div className="absolute top-12 right-2 shadow-lg p-4 rounded-md bg-white text-black z-50">
+            <ShareComponent />
+          </div>
+        )}
+
+        {/* Video Text Info */}
+        <div className="max-h-30 absolute left-12">
+          <h3 className="text-md font-semibold">
             {title.slice(0, 60) || "Untitled Video"}
             {title.length > 60 ? "..." : ""}
           </h3>
@@ -118,11 +125,10 @@ const VideoThumbnail = ({ video, menuData }) => {
             }}
             className="text-sm text-gray-400 hover:text-gray-50 cursor-pointer font-semibold"
           >
-            {user.username || "Unknown User"}
+            {user.username}
           </p>
-          <p className="text-sm text-gray-400 cursor-pointer">
-            {millify(views || 0)} views •{" "}
-            {createdAt ? format(createdAt) : "Unknown Date"}
+          <p className="text-sm text-gray-400">
+            {millify(views || 0)} views • {createdAt ? format(createdAt) : "Unknown Date"}
           </p>
         </div>
       </div>

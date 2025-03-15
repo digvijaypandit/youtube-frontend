@@ -5,48 +5,51 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/header/Header';
 
 const EditPost = () => {
-  const { postId } = useParams();  // Get post ID from URL
-  const navigate = useNavigate();  // For redirecting after successful update
+  const { tweetId } = useParams();
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    content: '',
-  });
+  const [formData, setFormData] = useState({ content: '' });
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [message, setMessage] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
-  if (!accessToken) {
-    setMessage('Authentication required. Please log in.');
-  }
 
   useEffect(() => {
-    // Fetch post data for editing
+    if (!accessToken) {
+      setMessage('Authentication required. Please log in.');
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
     const fetchPost = async () => {
+      if (!tweetId || !accessToken) {
+        setMessage('Failed to load post.');
+        setLoading(false);
+        return;
+      }
+
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/Posts/${postId}/`, {
+        const response = await axios.get(`http://localhost:8000/api/v1/tweets/${tweetId}`, {
           headers: {
-            'Authorization': `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
           },
         });
-        setFormData({ content: response.data.content });
+        setFormData({ content: response.data.data.content });
       } catch (error) {
-        console.error('Fetch error:', error);
         setMessage('Failed to load post.');
       } finally {
         setLoading(false);
       }
     };
 
-    if (accessToken) fetchPost();
-  }, [postId, accessToken]);
+    fetchPost();
+  }, [tweetId, accessToken]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -54,19 +57,52 @@ const EditPost = () => {
     setUpdating(true);
     setMessage('');
 
+    if (!formData.content.trim()) {
+      setMessage('Post content cannot be empty.');
+      setUpdating(false);
+      return;
+    }
+
     try {
-      await axios.patch(`http://localhost:8000/api/v1/Posts/${postId}/`, { content: formData.content }, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
+      await axios.patch(
+        `http://localhost:8000/api/v1/tweets/${tweetId}`,
+        { content: formData.content },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       setMessage('Post updated successfully!');
       setTimeout(() => navigate('/'), 2000);
     } catch (error) {
-      console.error('Update error:', error);
-      setMessage(error.response?.data?.detail || 'Failed to update post.');
+      setMessage('Failed to update post.');
     } finally {
       setUpdating(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this post?')) return;
+
+    setDeleting(true);
+    setMessage('');
+
+    try {
+      await axios.delete(`http://localhost:8000/api/v1/tweets/${tweetId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setMessage('Post deleted successfully!');
+      setTimeout(() => navigate('/'), 1500);
+    } catch (error) {
+      setMessage('Failed to delete post.');
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -105,11 +141,17 @@ const EditPost = () => {
                 >
                   {updating ? 'Updating...' : 'Update'}
                 </button>
-
-                {message && (
-                  <p className="mt-4 text-center text-gray-400">{message}</p>
-                )}
               </form>
+
+              <button
+                onClick={handleDelete}
+                className={`w-full mt-4 py-2 rounded ${deleting ? 'bg-gray-500' : 'bg-red-600 hover:bg-red-700'} text-white`}
+                disabled={deleting}
+              >
+                {deleting ? 'Deleting...' : 'Delete Post'}
+              </button>
+
+              {message && <p className="mt-4 text-center text-gray-400">{message}</p>}
             </div>
           </div>
         </div>

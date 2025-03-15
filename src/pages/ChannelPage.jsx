@@ -153,8 +153,10 @@ const ChannelPage = () => {
                                     <h1 className="text-3xl font-bold">{fullName}</h1>
                                     <p className="text-lg">@{channelData.username}</p>
                                     <p className="text-gray-400">
-                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers • {sameUser && (<h6>Subscribed to{channelsSubscribedToCount || 0} channels</h6>)}
+                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers •
                                     </p>
+                                    {sameUser && <h6 className="text-gray-400">Subscribed {channelsSubscribedToCount || 0}</h6>}
+
                                 </div>
                             </div>
                             {!sameUser && (
@@ -224,7 +226,7 @@ const ChannelPage = () => {
                             <p className="text-gray-500">No videos uploaded yet.</p>
                         )}
                     </div>
-                    <hr className='text-[#404040]'/>
+                    <hr className='text-[#404040]' />
                     <h2 className="text-2xl mt-4 font-bold mx-10">Playlists</h2>
                     <div className="p-6 text-center flex overflow-x-auto [&::-webkit-scrollbar]:hidden">
                         {videosLoading ? (
@@ -240,7 +242,7 @@ const ChannelPage = () => {
                             ))
                         )}
                     </div>
-                    <hr className='text-[#404040]'/>
+                    <hr className='text-[#404040]' />
                 </div>
             </div>
         </>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/header/Header";
+import { Link } from "react-router-dom";
 
 const Subscriptions = () => {
     const [channels, setChannels] = useState([]);
@@ -108,10 +109,10 @@ const Subscriptions = () => {
                                             alt={item.channel.username}
                                             className="w-16 h-16 rounded-full"
                                         />
-                                        <div className="flex-1">
+                                        <Link to={`/channel/${item.channel.username}`} className="flex-1">
                                             <h2 className="text-xl font-semibold">{item.channel.username}</h2>
                                             <p className="text-gray-400">@{item.channel.fullName}</p>
-                                        </div>
+                                        </Link>
                                         <button
                                             className={`cursor-pointer flex items-center px-4 py-2 rounded-md transition ${isSubscribed
                                                     ? "bg-[#454545] text-white"

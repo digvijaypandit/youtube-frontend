@@ -34,7 +34,6 @@ const ChannelVideoPage = () => {
 
                 if (response.data.success) {
                     setChannelData(response.data.data);
-                    console.log("Channel data loaded:", response.data.data);
                 }
 
                 const channelId = response.data.data._id;
@@ -135,8 +134,10 @@ const ChannelVideoPage = () => {
                                     <h1 className="text-3xl font-bold">{fullName}</h1>
                                     <p className="text-lg">@{channelData.username}</p>
                                     <p className="text-gray-400">
-                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers • {sameUser && (<h6>Subscribed {channelsSubscribedToCount || 0}</h6>)}
+                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers •
                                     </p>
+                                    {sameUser && <h6 className="text-gray-400">Subscribed {channelsSubscribedToCount || 0}</h6>}
+
                                 </div>
                             </div>
                             {!sameUser && (

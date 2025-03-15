@@ -1,14 +1,21 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 
-function MenuBox({ menuData }) {
+function MenuBox({ menuData, videoId }) {
   return (
-    <div>
-      <div className='flex bg-[#262626] rounded-lg p-4'>
+    <div className="bg-[#282828] absolute right-0 -top-20 z-50 rounded-2xl w-40">
+      <div className="flex rounded-lg m-4">
         {menuData && menuData.length > 0 ? (
           <ul className="text-white space-y-2">
             {menuData.map((item, index) => (
-              <li key={index} className="hover:bg-[#3d3d3d] cursor-pointer py-2 my-2 flex items-center">
-                {item}
+              <li key={index}  onClick={(e) => e.stopPropagation()} className="cursor-pointer w-32 hover:bg-[#7d7d7db9]">
+                {item === "Edit" ? (
+                  <Link to={`/edits/video/${videoId}`} className="block w-full h-full">
+                    {item}
+                  </Link>
+                ) : (
+                  item
+                )}
               </li>
             ))}
           </ul>

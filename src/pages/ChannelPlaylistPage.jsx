@@ -137,8 +137,10 @@ const ChannelVideoPage = () => {
                                     <h1 className="text-3xl font-bold">{fullName}</h1>
                                     <p className="text-lg">@{channelData.username}</p>
                                     <p className="text-gray-400">
-                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers • {sameUser && (<h6>Subscribed to{channelsSubscribedToCount || 0} channels</h6>)}
+                                        {millify(subscribersCount?.toLocaleString()) || 0} subscribers •
                                     </p>
+                                    {sameUser && <h6 className="text-gray-400">Subscribed {channelsSubscribedToCount || 0}</h6>}
+
                                 </div>
                             </div>
                             {!sameUser && (
