@@ -45,8 +45,8 @@ const LikedVideos = () => {
     return (
         <>
             <Header />
-            <div className='p-16 max-w-screen'>
-                <div className="min-h-screen bg-[#0f0f0f] text-white p-5 flex">
+            <div className='p-16 max-w-screen relative'>
+                <div className="min-h-screen max-w-screen overflow-x-hidden bg-[#0f0f0f] text-white p-5 flex">
                     <div className="fixed max-[450px]:hidden bg-gradient-to-b rounded-xl from-[#25242400] to-[#101010]">
                         <div
                             style={{
@@ -80,19 +80,17 @@ const LikedVideos = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid gap-4 p-2 sm:w-[90%] md:w-[85%] lg:w-[80%] xl:w-[80%] 3xl:w-[90%] overflow-hidden absolute right-0 top-20 h-auto">
-                        {likedVideos.map((video) => (
-                            <PlaylistVideoCard
-                                key={video._id}
-                                video={video}
-                                onwer={video.owner}
-                                className="sm:relative sm:top-0 sm:right-0 md:absolute md:right-4 md:top-16 
-                                lg:left-[%] lg:max-w-[80%] lg:top-20
-                                xl:right-10 xl:top-24"
-                            />
-                        ))}
+                    <div className="grid gap-4 absolute top-20 -right-42 sm:w-[90%] md:w-[85%] lg:w-[72%] xl:w-[80%] 3xl:w-[90%]">
+                        <div className="p-2">
+                            {likedVideos.map((video) => (
+                                <PlaylistVideoCard
+                                    key={video._id}
+                                    video={video}
+                                    onwer={video.owner}
+                                />
+                            ))}
+                        </div>
                     </div>
-
                 </div>
             </div>
         </>
