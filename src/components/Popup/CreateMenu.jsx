@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { AiOutlinePlaySquare } from "react-icons/ai";
 import { IoIosCreate } from "react-icons/io";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
 
 function CreateMenu() {
   return (

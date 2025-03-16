@@ -96,7 +96,7 @@ const VideoThumbnail = ({ video, menuData }) => {
         {/* Menu Button */}
         <div
           ref={MenuRef}
-          className="absolute top-8 right-2 p-2 z-50 rounded-2xl cursor-pointer hover:bg-gray-600"
+          className="absolute top-8 right-2 p-2 z-40 rounded-2xl cursor-pointer hover:bg-gray-600"
           onClick={toggleMenu}
         >
           <BsThreeDotsVertical />

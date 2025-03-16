@@ -13,6 +13,8 @@ const VideoInfoCard = ({ videoDetails }) => {
   const [loading, setLoading] = useState(true);
   const [isShare, setIsShare] = useState(false);
   const [isSameUser, setIsSameUser] = useState(true);
+  const [likes, setLikes] = useState(0);
+  const [hasLiked, setHasLiked] = useState(false);
   const shareRef = useRef(null);
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -40,14 +42,16 @@ const VideoInfoCard = ({ videoDetails }) => {
 
         setIsSameUser(userId !== channelId);
 
-        const [channelRes, subRes] = await Promise.all([
+        const [channelRes, subRes, likesRes] = await Promise.all([
           axios.get(`http://localhost:8000/api/v1/users/c/${channelId}`, { headers }),
           token
             ? axios.get(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, { headers })
-            : Promise.resolve({ data: { data: [] } })
+            : Promise.resolve({ data: { data: [] } }),
+          axios.get(`http://localhost:8000/api/v1/likes/total/v/${videoDetails._id}`, { headers })
         ]);
 
         setChannelDetails(channelRes.data);
+        setLikes(likesRes.data.totalLikes);
 
         if (token) {
           const isUserSubscribed = subRes.data.data.some(
@@ -65,7 +69,7 @@ const VideoInfoCard = ({ videoDetails }) => {
     };
 
     fetchVideoAndChannel();
-  }, [videoDetails, isSubscribed, userId]);
+  }, [videoDetails, userId]);
 
   const handleSubscriptionToggle = async () => {
     try {
@@ -80,6 +84,23 @@ const VideoInfoCard = ({ videoDetails }) => {
       setIsSubscribed(!isSubscribed);
     } catch (error) {
       console.error("Error toggling subscription:", error);
+    }
+  };
+
+  const handleLikeToggle = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) return alert("You need to log in to like this video.");
+
+      const headers = { Authorization: `Bearer ${token}` };
+
+      await axios.post(`http://localhost:8000/api/v1/likes/toggle/v/${videoDetails._id}`, {}, { headers });
+
+      // Update UI optimistically
+      setHasLiked(!hasLiked);
+      setLikes((prevLikes) => (hasLiked ? prevLikes - 1 : prevLikes + 1));
+    } catch (error) {
+      console.error("Error toggling like:", error);
     }
   };
 
@@ -120,6 +141,40 @@ const VideoInfoCard = ({ videoDetails }) => {
               {isSubscribed ? "Subscribed" : "Subscribe"}
             </button>
           )}
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="flex bg-[#262626] rounded-full">
+            <button
+              className={`flex items-center cursor-pointer px-4 py-2 rounded-tl-full rounded-bl-full ${
+                hasLiked ? "bg-blue-600" : "bg-[#262626] hover:bg-[#4e4e4ec7]"
+              } text-white`}
+              onClick={handleLikeToggle}
+            >
+              <BiLike className="mr-2" /> {millify(likes)}
+            </button>
+            <hr className="w-px h-6 my-2 bg-gray-400" />
+            <button className="bg-[#262626] p-3 cursor-pointer rounded-tr-full rounded-br-full hover:bg-[#4e4e4ec7] text-white">
+              <BiDislike />
+            </button>
+          </div>
+          <div className="relative">
+            <button
+              onClick={() => setIsShare((prev) => !prev)}
+              className="flex items-center bg-[#262626] px-4 py-2 rounded-full cursor-pointer hover:bg-[#4e4e4ec7] text-white"
+            >
+              <TbShare3 className="mr-2" /> Share
+            </button>
+
+            {isShare && (
+              <div className="absolute top-full mt-2 right-0 z-10 p-3 rounded-lg shadow-lg">
+                <ShareComponent />
+              </div>
+            )}
+          </div>
+
+          <button className="bg-[#262626] p-3 cursor-pointer rounded-full hover:bg-[#4e4e4ec7] text-white">
+            <BsThreeDots />
+          </button>
         </div>
       </div>
 
