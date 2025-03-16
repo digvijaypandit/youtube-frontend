@@ -33,33 +33,39 @@ const VideoInfoCard = ({ videoDetails }) => {
 
   useEffect(() => {
     if (!videoDetails?._id) return;
-
+  
     const fetchVideoAndChannel = async () => {
       try {
         const token = localStorage.getItem("accessToken");
         const headers = { Authorization: `Bearer ${token}` };
         const channelId = videoDetails.owner;
-
+  
         setIsSameUser(userId !== channelId);
-
-        const [channelRes, subRes, likesRes] = await Promise.all([
+  
+        const [channelRes, subRes, likesRes, userLikesRes] = await Promise.all([
           axios.get(`http://localhost:8000/api/v1/users/c/${channelId}`, { headers }),
           token
             ? axios.get(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, { headers })
             : Promise.resolve({ data: { data: [] } }),
-          axios.get(`http://localhost:8000/api/v1/likes/total/v/${videoDetails._id}`, { headers })
+          axios.get(`http://localhost:8000/api/v1/likes/total/v/${videoDetails._id}`, { headers }),
+          token
+            ? axios.get(`http://localhost:8000/api/v1/likes/videos`, { headers })
+            : Promise.resolve({ data: { data: [] } }),
         ]);
-
+  
         setChannelDetails(channelRes.data);
-        setLikes(likesRes.data.totalLikes);
-
+        setLikes(likesRes.data.data.totalLikes);
+  
         if (token) {
+          const likedVideoIds = userLikesRes.data.data.map((video) => video._id);
+          setHasLiked(likedVideoIds.includes(videoDetails._id));
+  
           const isUserSubscribed = subRes.data.data.some(
             (sub) => sub.subscriber._id === userId
           );
           setIsSubscribed(isUserSubscribed);
         }
-
+  
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -67,9 +73,10 @@ const VideoInfoCard = ({ videoDetails }) => {
         alert("Failed to fetch data. Please try again.");
       }
     };
-
+  
     fetchVideoAndChannel();
   }, [videoDetails, userId]);
+  
 
   const handleSubscriptionToggle = async () => {
     try {
@@ -96,8 +103,8 @@ const VideoInfoCard = ({ videoDetails }) => {
 
       await axios.post(`http://localhost:8000/api/v1/likes/toggle/v/${videoDetails._id}`, {}, { headers });
 
-      // Update UI optimistically
-      setHasLiked(!hasLiked);
+      // Toggle like state optimistically
+      setHasLiked((prev) => !prev);
       setLikes((prevLikes) => (hasLiked ? prevLikes - 1 : prevLikes + 1));
     } catch (error) {
       console.error("Error toggling like:", error);

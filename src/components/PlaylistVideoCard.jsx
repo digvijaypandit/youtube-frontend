@@ -8,7 +8,7 @@ import { IoReorderTwoOutline } from "react-icons/io5";
 const PlaylistVideoCard = ({video,onwer}) => {
   const navigate = useNavigate();
   return (
-    <div  onClick={() => navigate(`/watch/${video._id}`)} className="bg-[#0f0f0f] cursor-pointer flex min-w-[780px] max-w-[780px] text-[#f2f2f2] hover:bg-[#262626] rounded-lg shadow-lg">
+    <div  onClick={() => navigate(`/watch/${video._id}`)} className="bg-[#0f0f0f] cursor-pointer flex sm:w-[90%] md:w-[85%] lg:w-[72%] xl:w-[80%] 3xl:w-[90%] overflow-hidden text-[#f2f2f2] hover:bg-[#262626] rounded-lg shadow-lg">
       <div className='pl-2 relative cursor-grab active:cursor-grabbing top-[35%] '><IoReorderTwoOutline size={30}/></div>
       <div className="relative w-[30%] m-1">
         <img

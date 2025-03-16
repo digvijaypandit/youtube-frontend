@@ -2,17 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PlaylistVideoCard from "../components/PlaylistVideoCard";
 import Header from "../components/header/Header";
-import { FaPlus, FaPen } from "react-icons/fa6";
-import { TbShare3 } from "react-icons/tb";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import ShareComponent from "../components/ShareComponent";
 import { format } from "timeago.js"
 
 const LikedVideos = () => {
     const [likedVideos, setLikedVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const accessToken = localStorage.getItem("accessToken");
-    const [isShare, setIsShare] = useState(false);
     const user = JSON.parse(localStorage.getItem("user"))
 
     useEffect(() => {
@@ -24,8 +19,6 @@ const LikedVideos = () => {
                     },
                 });
                 setLikedVideos(response.data.data);
-                console.log("Videos from API:", response);
-                console.log(likedVideos);
                 setTimeout(() => {
                     setLoading(false);
                 }, 2000);
@@ -39,7 +32,6 @@ const LikedVideos = () => {
     }, [accessToken]);
 
     useEffect(() => {
-        console.log("updateted data", likedVideos)
     }, [likedVideos])
 
     if (loading) {
@@ -55,7 +47,7 @@ const LikedVideos = () => {
             <Header />
             <div className='p-16 max-w-screen'>
                 <div className="min-h-screen bg-[#0f0f0f] text-white p-5 flex">
-                    <div className="fixed bg-gradient-to-b rounded-xl from-[#25242400] to-[#101010]">
+                    <div className="fixed max-[450px]:hidden bg-gradient-to-b rounded-xl from-[#25242400] to-[#101010]">
                         <div
                             style={{
                                 backgroundImage: `url(${likedVideos[0]?.thumbnail})`,
@@ -88,15 +80,19 @@ const LikedVideos = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid gap-4 p-2 w-auto overflow-hidden absolute right-0 top-20 h-auto">
+                    <div className="grid gap-4 p-2 sm:w-[90%] md:w-[85%] lg:w-[80%] xl:w-[80%] 3xl:w-[90%] overflow-hidden absolute right-0 top-20 h-auto">
                         {likedVideos.map((video) => (
                             <PlaylistVideoCard
                                 key={video._id}
                                 video={video}
                                 onwer={video.owner}
+                                className="sm:relative sm:top-0 sm:right-0 md:absolute md:right-4 md:top-16 
+                                lg:left-[%] lg:max-w-[80%] lg:top-20
+                                xl:right-10 xl:top-24"
                             />
                         ))}
                     </div>
+
                 </div>
             </div>
         </>
