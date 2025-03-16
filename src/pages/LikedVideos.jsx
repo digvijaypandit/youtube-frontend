@@ -45,7 +45,7 @@ const LikedVideos = () => {
     return (
         <>
             <Header />
-            <div className='p-16 max-w-screen relative'>
+            <div className='p-16 max-w-screen relative overflow-hidden'>
                 <div className="min-h-screen max-w-screen overflow-x-hidden bg-[#0f0f0f] text-white p-5 flex">
                     <div className="fixed max-[450px]:hidden bg-gradient-to-b rounded-xl from-[#25242400] to-[#101010]">
                         <div
@@ -80,8 +80,8 @@ const LikedVideos = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid gap-4 absolute top-20 -right-42 sm:w-[90%] md:w-[85%] lg:w-[72%] xl:w-[80%] 3xl:w-[90%]">
-                        <div className="p-2">
+                    <div className="grid gap-4 top-20 -0 bg-amber-50">
+                        <div className="p-2 absolute top-20 left-[35%] sm:w-[90%] md:w-[85%] lg:w-[72%] xl:w-[80%] 3xl:w-[90%]">
                             {likedVideos.map((video) => (
                                 <PlaylistVideoCard
                                     key={video._id}
