@@ -60,8 +60,8 @@ const Sidebar = ({ isCollapsed, toggleSidebar, ishidden }) => {
               <SidebarItem id={24} icon={<MdFeedback />} label="Send feedback" path="/send-feedback" isCollapsed={isCollapsed} onClick={clickedBtn} active={activeId === 24} />
 
               <SectionTitle />
-              <p className="text-[#313131] mx-2 px-4">&copy;2025 Digvijay Pandit • All rights reserved</p>
-              <p className="text-[#313131] mx-2 px-4">This website is a clone created solely for educational purposes and is not affiliated with or endorsed by YouTube.</p>
+              <p className="text-[#676565c0] mx-2 px-4">&copy;2025 Digvijay Pandit • All rights reserved</p>
+              <p className="text-[#676565c0] mx-2 px-4">This website is a clone created solely for educational purposes and is not affiliated with or endorsed by YouTube.</p>
             </>
           )}
         </nav>

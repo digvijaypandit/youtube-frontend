@@ -8,9 +8,13 @@ function MenuBox({ menuData, videoId }) {
         {menuData && menuData.length > 0 ? (
           <ul className="text-white space-y-2">
             {menuData.map((item, index) => (
-              <li key={index}  onClick={(e) => e.stopPropagation()} className="cursor-pointer w-32 hover:bg-[#7d7d7db9]">
+              <li key={index} onClick={(e) => e.stopPropagation()} className="cursor-pointer w-32 hover:bg-[#7d7d7db9]">
                 {item === "Edit" ? (
                   <Link to={`/edits/video/${videoId}`} className="block w-full h-full">
+                    {item}
+                  </Link>
+                ) : item === "Save to playlist" ? (
+                  <Link to={`/save-to-playlist`} state={{ videoId }} className="block w-full h-full">
                     {item}
                   </Link>
                 ) : (

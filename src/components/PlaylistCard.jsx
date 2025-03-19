@@ -7,12 +7,12 @@ const PlaylistCard = (item) => {
     return (
         <div
             onClick={() => navigate(`/watch/${item.playlist.video[0]._id}`)}
-            className="max-w-[260px] min-w-[260px] m-2 bg-[#0f0f0f] rounded-md flex flex-col shadow-lg relative cursor-pointer"
+            className="max-w-[300px] min-w-[260px] m-2 bg-[#0f0f0f] rounded-md flex flex-col shadow-lg relative cursor-pointer"
         >
             {/* Thumbnail */}
             <div className="relative">
                 <div
-                    className={`absolute -top-2 left-3 w-[235px] h-[174px] pt-1 bg-cover rounded-md bg-center ${item.playlist.video?.length > 2 ? '' : 'bg-gray-800'}`}
+                    className={`absolute -top-2 left-3 w-[270px] h-[174px] pt-1 bg-cover rounded-md bg-center ${item.playlist.video?.length > 2 ? '' : 'bg-gray-800'}`}
                     style={{
                         backgroundImage:
                             item.playlist.video?.length > 2
@@ -22,7 +22,7 @@ const PlaylistCard = (item) => {
                 >
                 </div>
                 <div
-                    className={`absolute -top-[2px] left-1 w-[250px] h-[174px] bg-cover rounded-md bg-center ${item.playlist.video?.length > 1 ? '' : 'bg-gray-600'}`}
+                    className={`absolute -top-[2px] left-1 w-[285px] h-[174px] bg-cover rounded-md bg-center ${item.playlist.video?.length > 1 ? '' : 'bg-gray-600'}`}
                     style={{
                         backgroundImage:
                             item.playlist.video?.length > 1
@@ -37,7 +37,7 @@ const PlaylistCard = (item) => {
                             : 'default-thumbnail.jpg'
                     }
                     alt="Playlist Thumbnail"
-                    className="relative top-0 left-0 w-[260px] h-[174px] pt-1 rounded-xl flex flex-col shadow-lg cursor-pointer"
+                    className="relative top-0 left-0 w-[300px] h-[174px] pt-1 rounded-xl flex flex-col shadow-lg cursor-pointer"
                 />
                 {/* Video count badge */}
                 <div className="absolute bottom-2 right-2 flex items-center justify-between bg-black bg-opacity-70 text-white text-xs px-2 py-0.5 rounded">

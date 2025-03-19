@@ -3,7 +3,6 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./pages/Home";
 import PrivateRoute from "./feature/PrivateRoute";
-import VideoThumbnail from "./components/VideoThumbnail";
 import VideoPage from "./pages/VideoPage";
 import './app.css';
 import ThemeSwitcher from "./components/ThemeSwitcher";
@@ -19,12 +18,13 @@ import ChannelPlaylistPage from "./pages/ChannelPlaylistPage";
 import ChannelCommunityPage from "./pages/ChannelCommunityPage";
 import Subscriptions from "./pages/Subscriptions";
 import YourVideos from "./pages/YourVideos";
-import UaerPlaylists from "./pages/UaerPlaylists";
+import UserPlaylists from "./pages/UserPlaylists";
 import LikedVideos from "./pages/LikedVideos";
 import SettingsPage from "./pages/SettingsPage";
 import History from "./pages/History";
 import EditVideo from "./pages/EditVideo";
 import EditPost from "./pages/EditPost";
+import AddVideoPlaylist from "./pages/AddVideoPlaylist";
 
 function App() {  
   const isOnline = useNetworkStatus();
@@ -60,7 +60,7 @@ function App() {
             <Route path="/edits/video/:videoId" element={<PrivateRoute><EditVideo /></PrivateRoute>} />
             <Route path="/edits/post/:tweetId" element={<PrivateRoute><EditPost /></PrivateRoute>} />
             <Route path="/user/videos" element={<PrivateRoute><YourVideos /></PrivateRoute>} />
-            <Route path="/user/playlists" element={<PrivateRoute><UaerPlaylists /></PrivateRoute>} />
+            <Route path="/user/playlists" element={<PrivateRoute><UserPlaylists /></PrivateRoute>} />
             <Route path="/user/liked-videos" element={<PrivateRoute><LikedVideos /></PrivateRoute>} />
             <Route path="/history" element={<PrivateRoute><History /></PrivateRoute>} />
             <Route path="/user/setting" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
@@ -85,6 +85,7 @@ function App() {
             <Route path="/report-history" element={<Shorts />} />
             <Route path="/help" element={<Shorts />} />
             <Route path="/send-feedback" element={<Shorts />} />
+            <Route path="/save-to-playlist" element={<AddVideoPlaylist />} />
           </Routes>
         </Router>
       </div>

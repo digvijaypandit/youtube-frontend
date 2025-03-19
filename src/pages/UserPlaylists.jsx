@@ -4,7 +4,7 @@ import axios from 'axios';
 import PlaylistCard from '../components/PlaylistCard';
 import Header from '../components/header/Header';
 
-const UaerPlaylists = () => {
+const UserPlaylists = () => {
     const { username } = useParams();
     const [playlist, setPlaylist] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -51,10 +51,10 @@ const UaerPlaylists = () => {
             <div className='p-14 max-w-screen bg-[#0f0f0f]'>
                 <div className="min-h-screen bg-[#0f0f0f] text-white font-sans">
                     {/* Playlist Content */}
-                    <div className="p-6 text-center flex">
+                    <div className="p-6 text-center flex flex-wrap">
                         {playlist.length > 0 ? (
                             playlist.map((item) => (
-                                <div key={item._id} >
+                                <div key={item._id} className='w-full sm:w-[48%] md:w-[48%] lg:w-[32%] xl:w-[32%] 2xl:w-[15%] p-2'>
                                     <PlaylistCard playlist={item} />
                                 </div>
                             ))
@@ -68,4 +68,4 @@ const UaerPlaylists = () => {
     );
 };
 
-export default UaerPlaylists;
+export default UserPlaylists;
