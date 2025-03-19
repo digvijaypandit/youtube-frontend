@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import PlaylistVideoCard from "../components/PlaylistVideoCard";
 import Header from "../components/header/Header";
 import { FaPlus, FaPen } from "react-icons/fa6";
 import { TbShare3 } from "react-icons/tb";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ShareComponent from "../components/ShareComponent";
-import { format } from "timeago.js"
+import { format } from "timeago.js";
 
 const PlaylistPage = () => {
   const { playlistId } = useParams();
@@ -15,15 +15,20 @@ const PlaylistPage = () => {
   const [loading, setLoading] = useState(true);
   const [isShare, setIsShare] = useState(false);
   const accessToken = localStorage.getItem("accessToken");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const loggedInUserId = user._id;
 
   useEffect(() => {
     const fetchPlaylist = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/playlist/${playlistId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/playlist/${playlistId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setPlaylist(response.data.data);
       } catch (error) {
         console.error("Error fetching playlist:", error);
@@ -43,6 +48,8 @@ const PlaylistPage = () => {
     return <div className="text-center text-white">Playlist not found</div>;
   }
 
+  const isOwner = loggedInUserId === playlist?.onwer?._id;
+
   return (
     <>
       <Header />
@@ -53,9 +60,9 @@ const PlaylistPage = () => {
             <div
               style={{
                 backgroundImage: `url(${playlist.video[0]?.thumbnail})`,
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
               }}
               className="relative max-w-sm h-[80vh] rounded-xl shadow-lg text-white p-4 overflow-hidden"
             >
@@ -81,7 +88,8 @@ const PlaylistPage = () => {
                   </div>
                 </div>
                 <div className="text-sm text-[#ababab] mt-2">
-                  {playlist?.video?.length || 0} videos • Public • {format(playlist.updatedAt)}
+                  {playlist?.video?.length || 0} videos • Public •{" "}
+                  {format(playlist.updatedAt)}
                 </div>
               </div>
 
@@ -106,12 +114,17 @@ const PlaylistPage = () => {
                   </button>
                 </div>
                 <div className="flex gap-2 text-white">
-                  <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
-                    <FaPlus />
-                  </button>
-                  <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
-                    <FaPen />
-                  </button>
+                  {/* Show edit buttons only if the user is the owner */}
+                  {isOwner && (
+                    <>
+                      <button className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
+                        <FaPlus />
+                      </button>
+                      <Link to={`/edits/playlist/${playlistId}`} className="p-3 rounded-full cursor-pointer bg-gray-800 hover:bg-gray-700">
+                        <FaPen />
+                      </Link>
+                    </>
+                  )}
                   <div className="relative">
                     <button
                       onClick={() => setIsShare((prev) => !prev)}
@@ -120,7 +133,7 @@ const PlaylistPage = () => {
                       <TbShare3 />
                     </button>
                     {isShare && (
-                      <div className="absolute top-12 left-0 shadow-lg p-4 rounded-md bg-white text-black z-20">
+                      <div className="absolute top-12 left-0 shadow-lg p-4 rounded-md bg-transparent z-20">
                         <ShareComponent />
                       </div>
                     )}
@@ -136,7 +149,11 @@ const PlaylistPage = () => {
           {/* Video List */}
           <div className="grid gap-4 p-2 w-auto overflow-hidden absolute right-0 top-20 h-auto">
             {playlist?.video?.map((video) => (
-              <PlaylistVideoCard key={video._id} video={video} onwer={playlist?.onwer} />
+              <PlaylistVideoCard
+                key={video._id}
+                video={video}
+                onwer={playlist?.onwer}
+              />
             ))}
           </div>
         </div>

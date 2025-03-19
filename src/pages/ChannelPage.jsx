@@ -58,7 +58,7 @@ const ChannelPage = () => {
                 setUserVideos(userVideosRes.data.data);
 
                 const Playlists = await axios.get(
-                    `http://localhost:8000/api/v1/playlist/user/${userId}`, {
+                    `http://localhost:8000/api/v1/playlist/user/${channelId}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     },
@@ -232,8 +232,8 @@ const ChannelPage = () => {
                         {videosLoading ? (
                             <p className="text-gray-500">Loading videos...</p>
                         ) : (
-                            playlist.map((item) => (
-                                <div className='flex items-center overflow-x-hidden p-2 m-0'>
+                            playlist.slice(0, 5).map((item) => (
+                                <div className='flex items-center p-2 m-0'>
                                     <PlaylistCard
                                         key={item._id}
                                         playlist={item}

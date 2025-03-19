@@ -48,12 +48,11 @@ const ChannelVideoPage = () => {
                 setIsSubscribed(isUserSubscribed);
 
                 const Playlists = await axios.get(
-                    `http://localhost:8000/api/v1/playlist/user/${userId}`, {
+                    `http://localhost:8000/api/v1/playlist/user/${channelId}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     },
-                }
-                );
+                });                
                 setPlaylist(Playlists.data.data);
 
             } catch (error) {
